@@ -7,25 +7,55 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        TabView {
-            Tab("Länge", systemImage: "ruler") {
-                LengthView()
-            }
-            
-            Tab("Temperatur", systemImage: "thermometer.transmission") {
-                Text("Temperatur")
-            }
-            
-            Tab("Zeit", systemImage: "clock") {
-                Text("Zeit")
-            }
-            
-            Tab("Volumen", systemImage: "scalemass") {
-                Text("Volumen")
-            }
+struct Category: Identifiable {
+    let id = UUID().uuidString
+    let view: () -> AnyView
+    let text: LocalizedStringResource
+    let imageName: String
+    
+    init<V: View>(view: @escaping () -> V, text: LocalizedStringResource, imageName: String) {
+            self.view = { AnyView(view()) }  // Wrap view in AnyView
+            self.text = text
+            self.imageName = imageName
         }
+}
+
+struct ContentView: View {
+    @State private var searchText = ""
+    
+    let allCategories = [
+        Category(view: {LengthView()}, text: "Length", imageName: "ruler.fill"),
+        Category(view: {AreaView()}, text: "Area", imageName: "rectangle.inset.fill"),
+        Category(view: {VolumeView()}, text: "Volume", imageName: "cube.fill"),
+        Category(view: {MassView()}, text: "Mass", imageName: "scalemass.fill"),
+        Category(view: {TemperatureView()}, text: "Temperature", imageName: "thermometer.sun.circle.fill"),
+        Category(view: {Text("Time")}, text: "Time", imageName: "clock.fill"),
+        Category(view: {Text("Currency")}, text: "Currency", imageName: "eurosign.circle.fill"),
+    ]
+    
+    var filteredCategories: [Category] {
+        if searchText.isEmpty {
+            return allCategories
+        }
+        return allCategories.filter {
+            String(localized: $0.text).localizedCaseInsensitiveContains(searchText.lowercased())
+        }
+    }
+    
+    
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Spacer()
+                GridStack(categories: filteredCategories)
+                Spacer()
+                Spacer()
+                Spacer()
+            }
+            .navigationTitle("Convert Units")
+        }
+        .searchable(text: $searchText, prompt: "Search Category")
     }
 }
 

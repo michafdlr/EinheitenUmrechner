@@ -2,21 +2,23 @@
 //  UnitsView.swift
 //  EinheitenUmrechner
 //
-//  Created by Michael Fiedler on 10.02.25.
+//  Created by Michael Fiedler on 14.02.25.
 //
 
 import SwiftUI
 
-struct UnitsView: View {
-    @Binding var selected: UnitLength
+struct UnitsView<UnitType: Dimension>: View {
+    @Binding var selectedUnit: UnitType
     @State private var searchText = ""
+    
+    let allUnits: [UnitType]
 
-    var filteredUnits: [UnitLength] {
+    var filteredUnits: [UnitType] {
         if searchText.isEmpty {
             return allUnits
         }
         return allUnits.filter {
-            formatter.string(from: $0).localizedCaseInsensitiveContains(searchText) || $0.symbol.localizedCaseInsensitiveContains(searchText)
+            measureFormatter.string(from: $0).localizedCaseInsensitiveContains(searchText) || $0.symbol.localizedCaseInsensitiveContains(searchText)
         }
     }
     var body: some View {
@@ -28,7 +30,7 @@ struct UnitsView: View {
                 ) {
 
                     GridRow {
-                        Text("Maß")
+                        Text("Unit")
 
                         Text("Symbol")
                     }
@@ -38,11 +40,11 @@ struct UnitsView: View {
                     ForEach(filteredUnits, id: \.self) { unit in
                         Divider()
                         GridRow {
-                            Text(formatter.string(from: unit))
+                            Text(measureFormatter.string(from: unit))
 
                             Text(unit.symbol)
                             
-                            if selected == unit {
+                            if selectedUnit == unit {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundStyle(.green)
                             } else {
@@ -51,17 +53,13 @@ struct UnitsView: View {
                             }
                         }
                         .onTapGesture {
-                            selected = unit
+                            selectedUnit = unit
                         }
                     }
                     
                 }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Einheit suchen")
+                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Unit")
             }
         }
     }
 }
-
-//#Preview {
-//    UnitsView(selected: UnitLength.centimeters)
-//}
