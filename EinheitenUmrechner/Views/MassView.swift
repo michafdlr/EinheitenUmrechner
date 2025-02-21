@@ -18,7 +18,3 @@ struct MassView: View {
         CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allMassUnits, textFieldName: "Mass", standardUnit: .kilograms, title: "Mass")
     }
 }
-
-#Preview {
-    MassView()
-}

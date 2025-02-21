@@ -1,28 +1,48 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lf %@" : {
+    "%@ %@" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lf %2$@"
+            "value" : "%1$@ %2$@"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$lf %2$@"
+            "value" : "%1$@ %2$@"
           }
         }
       }
     },
-    "Add Target Unit" : {
+    "Acceleration" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zieleinheit hinzufügen"
+            "value" : "Beschleunigung"
+          }
+        }
+      }
+    },
+    "Add One" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Hinzufügen"
+          }
+        }
+      }
+    },
+    "Angle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Winkel"
           }
         }
       }
@@ -33,6 +53,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fläche"
+          }
+        }
+      }
+    },
+    "Base Value" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grundwert"
           }
         }
       }
@@ -77,6 +107,86 @@
         }
       }
     },
+    "Electric Charge" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elektrische Ladung"
+          }
+        }
+      }
+    },
+    "Electric Current" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strom"
+          }
+        }
+      }
+    },
+    "Electric Potential" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elektrisches Potential"
+          }
+        }
+      }
+    },
+    "Electric Resistance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elektrischer Widerstand"
+          }
+        }
+      }
+    },
+    "Energy" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Energie"
+          }
+        }
+      }
+    },
+    "Frequency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequenz"
+          }
+        }
+      }
+    },
+    "Fuel Efficiency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treibstoffeffizienz"
+          }
+        }
+      }
+    },
+    "Information Storage" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speicherkapazität"
+          }
+        }
+      }
+    },
     "Length" : {
       "localizations" : {
         "de" : {
@@ -97,6 +207,36 @@
         }
       }
     },
+    "Power" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kraft"
+          }
+        }
+      }
+    },
+    "Pressure" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Druck"
+          }
+        }
+      }
+    },
+    "Search Category" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche Kategorie"
+          }
+        }
+      }
+    },
     "Search Unit" : {
       "localizations" : {
         "de" : {
@@ -107,12 +247,42 @@
         }
       }
     },
-    "Start Value" : {
+    "Show All" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Startwert"
+            "value" : "Zeige alle"
+          }
+        }
+      }
+    },
+    "Show One" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeige eine"
+          }
+        }
+      }
+    },
+    "Speed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschwindigkeit"
+          }
+        }
+      }
+    },
+    "Storage" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speicher"
           }
         }
       }

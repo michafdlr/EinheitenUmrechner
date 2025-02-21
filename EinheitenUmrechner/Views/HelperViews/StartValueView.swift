@@ -20,7 +20,7 @@ struct StartValueView<T: Dimension>: View {
     var body: some View {
         HStack {
             HStack {
-                TextField(textFieldName, value: $inputValue, format: .number)
+                TextField(textFieldName, value: $inputValue, format: .number, prompt: Text("Your Value"))
                     .textFieldStyle(.roundedBorder)
                     .frame(width: textInputWidth * 0.7)
                     .keyboardType(.decimalPad)
