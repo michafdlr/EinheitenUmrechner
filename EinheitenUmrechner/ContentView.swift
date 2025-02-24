@@ -13,8 +13,6 @@ struct ContentView: View {
     @State private var categoriesSortedAscending = true
     @State private var angle = 0.0
 
-    // small comment to check git
-    
     var sortedCategories: [Category] {
         if categoriesSortedAscending {
             return allCategories.sorted {
