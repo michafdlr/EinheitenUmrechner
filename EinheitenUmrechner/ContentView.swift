@@ -7,16 +7,8 @@
 
 import SwiftUI
 
-struct BackgroundColorStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        return ZStack {
-            Color.mint.ignoresSafeArea()
-            content
-        }
-    }
-}
-
 struct ContentView: View {
+    @EnvironmentObject var networkMonitor: NetworkMonitor
     @State private var searchText = ""
     @State private var categoriesSortedAscending = true
     @State private var angle = 0.0
@@ -24,11 +16,11 @@ struct ContentView: View {
     var sortedCategories: [Category] {
         if categoriesSortedAscending {
             return allCategories.sorted {
-                String(localized: $0.text) < String(localized: $1.text)
+                String(localized: $0.title) < String(localized: $1.title)
             }
         }
         return allCategories.sorted {
-            String(localized: $0.text) > String(localized: $1.text)
+            String(localized: $0.title) > String(localized: $1.title)
         }
     }
 
@@ -37,7 +29,7 @@ struct ContentView: View {
             return sortedCategories
         }
         return sortedCategories.filter {
-            String(localized: $0.text).localizedCaseInsensitiveContains(
+            String(localized: $0.title).localizedStandardContains(
                 searchText.lowercased())
         }
     }
@@ -53,20 +45,7 @@ struct ContentView: View {
             }
             .navigationTitle("Convert Units")
             .toolbar {
-                Button {
-                    categoriesSortedAscending.toggle()
-                    angle =
-                        categoriesSortedAscending ? angle - 180 : angle + 180
-                } label: {
-                    Image(
-                        systemName: "arrowshape.up.circle.fill"
-                    )
-                    .rotationEffect(Angle(degrees: angle))
-                    .animation(
-                        .bouncy(duration: 0.5, extraBounce: 0.3), value: angle
-                    )
-                    .font(.title)
-                }
+                SortButtonView(sortedAscending: $categoriesSortedAscending)
             }
             .animation(.easeIn(duration: 0.5), value: categoriesSortedAscending)
         }
@@ -78,5 +57,7 @@ struct ContentView: View {
 }
 
 #Preview {
+    @Previewable @StateObject var networkMonitor = NetworkMonitor()
     ContentView()
+        .environmentObject(networkMonitor)
 }

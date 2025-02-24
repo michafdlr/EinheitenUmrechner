@@ -11,7 +11,7 @@ struct FrequencyView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitFrequency.hertz
     @State private var startValue = 100.0
-    @State private var targetUnits: [UnitFrequency] = [.kilohertz]
+    @State private var targetUnits = allFrequencyUnits
     
     var body: some View {
         CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allFrequencyUnits, textFieldName: "Frequency", standardUnit: .kilohertz, title: "Frequency")

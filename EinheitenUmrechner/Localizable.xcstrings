@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ (%@)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ (%2$@)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$@)"
+          }
+        }
+      }
+    },
     "%@ %@" : {
       "localizations" : {
         "de" : {
@@ -57,6 +73,26 @@
         }
       }
     },
+    "Available Currencies" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verfügbare Währungen"
+          }
+        }
+      }
+    },
+    "Base Currency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Währung"
+          }
+        }
+      }
+    },
     "Base Value" : {
       "localizations" : {
         "de" : {
@@ -67,12 +103,32 @@
         }
       }
     },
+    "Code" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code"
+          }
+        }
+      }
+    },
     "Convert %@" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ umwandeln"
+          }
+        }
+      }
+    },
+    "Convert Currency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Währung umwandeln"
           }
         }
       }
@@ -93,6 +149,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Währung"
+          }
+        }
+      }
+    },
+    "Currency Amount" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geldbetrag"
           }
         }
       }
@@ -157,6 +223,16 @@
         }
       }
     },
+    "Error fetching Data" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler Bei Datenabruf"
+          }
+        }
+      }
+    },
     "Frequency" : {
       "localizations" : {
         "de" : {
@@ -207,6 +283,16 @@
         }
       }
     },
+    "Please make sure you are connected to the internet!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stelle sicher, dass eine Internetverbindung vorhanden ist."
+          }
+        }
+      }
+    },
     "Power" : {
       "localizations" : {
         "de" : {
@@ -237,12 +323,52 @@
         }
       }
     },
+    "Search Currency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche Währung"
+          }
+        }
+      }
+    },
+    "Search Target Currency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche Zielwährung"
+          }
+        }
+      }
+    },
     "Search Unit" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einheit suchen"
+          }
+        }
+      }
+    },
+    "Select Base Currency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle Grund Währung"
+          }
+        }
+      }
+    },
+    "Selected Currency" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewählte Währung"
           }
         }
       }
@@ -293,6 +419,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Symbol"
+          }
+        }
+      }
+    },
+    "Target Currencies" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zielwährungen"
           }
         }
       }
@@ -353,6 +489,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Volumen"
+          }
+        }
+      }
+    },
+    "Your Value" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihr Wert"
           }
         }
       }

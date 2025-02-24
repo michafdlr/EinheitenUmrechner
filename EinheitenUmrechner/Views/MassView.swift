@@ -11,7 +11,7 @@ struct MassView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitMass.kilograms
     @State private var startValue = 1.0
-    @State private var targetUnits = [UnitMass.grams]
+    @State private var targetUnits = allMassUnits
     
     
     var body: some View {

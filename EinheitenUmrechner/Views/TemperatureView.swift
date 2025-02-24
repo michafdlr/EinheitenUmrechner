@@ -12,7 +12,7 @@ struct TemperatureView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitTemperature.celsius
     @State private var temperatureValue = 20.0
-    @State private var targetUnits = [UnitTemperature.celsius]
+    @State private var targetUnits = allTemperatureUnits
     
     var body: some View {
         CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $temperatureValue, targetUnits: $targetUnits, allUnits: allTemperatureUnits, textFieldName: "Temperature", standardUnit: .celsius, title: "Temperature")

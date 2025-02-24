@@ -387,6 +387,11 @@ struct ExchangeRatesResponse: Codable {
     }
 }
 
+func getFullCurrencyName(from currency: String) -> String {
+    Currency.allCases.first { String(describing: $0) == currency }?.rawValue
+        ?? currency.localizedCapitalized
+}
+
 // Custom CodingKeys to handle dynamic JSON keys
 //struct DynamicCodingKeys: CodingKey {
 //    var stringValue: String

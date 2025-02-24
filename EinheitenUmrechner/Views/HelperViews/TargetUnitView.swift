@@ -11,24 +11,16 @@ struct TargetUnitView<T: Dimension>: View {
     var targetValue: Measurement<T>
     var textInputWidth: CGFloat
     @Binding var targetUnit: T
-    
+
     let allUnits: [T]
-    
+
     var body: some View {
-        HStack {
-            Text(
-                "\(targetValue.value.formatted()) \(targetUnit.symbol)"
-            )
-            .multilineTextAlignment(.trailing)
-            .bold()
-            .frame(width: textInputWidth, alignment: .topLeading)
-            
-            
-            Divider()
-            
-            NavigationLink("Units") {
-                UnitsView(selectedUnit: $targetUnit, allUnits: allUnits)
-            }
-        }
+        Text(
+            measureFormatter.string(from: targetUnit) == targetUnit.symbol
+                ? "\(targetValue.value.formatted()) \(targetUnit.symbol)"
+                : "\(targetValue.value.formatted()) \(measureFormatter.string(from: targetUnit).localizedCapitalized) (\(targetUnit.symbol))"
+        )
+        .multilineTextAlignment(.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

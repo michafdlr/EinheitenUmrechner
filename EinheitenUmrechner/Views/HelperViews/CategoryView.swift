@@ -7,30 +7,22 @@
 
 import SwiftUI
 
-struct CategoryView<T: Dimension>: View {
+struct CategoryView<T: Dimension>: View {    
     @FocusState.Binding var valueIsFocused: Bool
     @Binding var startUnit: T
     @Binding var startValue: Double
     @Binding var targetUnits: [T]
-
+    
     let allUnits: [T]
     let textFieldName: String
     let standardUnit: T
     let title: LocalizedStringResource
+    
 
-    @State private var allUnitsShowing = false
+    @State private var allUnitsShowing = true
     @State private var searchText = ""
-
-//    var filteredTargetUnits: [T] {
-//        if searchText.isEmpty {
-//            return targetUnits
-//        }
-//        return targetUnits.filter {
-//            measureFormatter.string(from: $0).localizedCaseInsensitiveContains(
-//                searchText)
-//                || $0.symbol.localizedCaseInsensitiveContains(searchText)
-//        }
-//    }
+    @State private var sheetIsShowing = false
+    @State private var unitsSortedAscending = true
 
     var textInputWidth: CGFloat {
         UIScreen.main.bounds.width * 0.5
@@ -38,6 +30,19 @@ struct CategoryView<T: Dimension>: View {
 
     var valueMeasure: Measurement<T> {
         Measurement(value: startValue, unit: startUnit)
+    }
+    
+    
+    func sortTargetUnits() {
+        if unitsSortedAscending {
+            targetUnits = targetUnits.sorted {
+                measureFormatter.string(from: $0).localizedLowercase <= measureFormatter.string(from: $1).localizedLowercase
+            }
+        } else {
+            targetUnits = targetUnits.sorted {
+                measureFormatter.string(from: $0).localizedLowercase > measureFormatter.string(from: $1).localizedLowercase
+            }
+        }
     }
 
     var body: some View {
@@ -49,7 +54,8 @@ struct CategoryView<T: Dimension>: View {
                         textInputWidth: textInputWidth,
                         valueIsFocused: $valueIsFocused,
                         inputValue: $startValue,
-                        startUnit: $startUnit, allUnits: allUnits)
+                        startUnit: $startUnit,
+                        allUnits: allUnits)
                 }
 
                 Section("Target Units") {
@@ -58,21 +64,41 @@ struct CategoryView<T: Dimension>: View {
                             targetValue: getTargetValue(
                                 targetUnit: targetUnits[index],
                                 measure: valueMeasure),
-                            textInputWidth: textInputWidth,
+                            textInputWidth: textInputWidth * 2,
                             targetUnit: $targetUnits[index],
                             allUnits: allUnits
                         )
                     }
+                    .onDelete { index in
+                        targetUnits.remove(atOffsets: index)
+                        allUnitsShowing = false
+                    }
+                    .onChange(of: unitsSortedAscending) {
+                        withAnimation(.easeInOut) {
+                            sortTargetUnits()
+                        }
+                    }
+                    .onChange(of: targetUnits) {
+                        sortTargetUnits()
+                    }
+                    
                 }
             }
             .toolbar {
-                Button("Add One", systemImage: "plus") {
-                    targetUnits.append(standardUnit)
-                }
-
-                Button(allUnitsShowing ? "Show One" : "Show All") {
-                    targetUnits = allUnitsShowing ? [standardUnit] : allUnits
+                Button(allUnitsShowing ? "Hide All" : "Show All") {
+                    targetUnits = allUnitsShowing ? [] : allUnits
                     allUnitsShowing.toggle()
+                }
+                
+                SortButtonView(sortedAscending: $unitsSortedAscending)
+                
+                if !allUnitsShowing {
+                    Button("Add Target Unit", systemImage: "plus") {
+                        sheetIsShowing.toggle()
+                    }
+                    .sheet(isPresented: $sheetIsShowing) {
+                        AddUnitSheetView(targetUnits: $targetUnits, allUnits: allUnits)
+                    }
                 }
                 if valueIsFocused {
                     Button("Done") {
@@ -82,5 +108,6 @@ struct CategoryView<T: Dimension>: View {
             }
             .navigationTitle("Convert \(title)")
         }
+        .onAppear(perform: sortTargetUnits)
     }
 }

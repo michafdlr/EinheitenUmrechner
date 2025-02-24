@@ -11,7 +11,7 @@ struct PressureView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitPressure.bars
     @State private var startValue = 1.0
-    @State private var targetUnits: [UnitPressure] = [.kilopascals]
+    @State private var targetUnits = allPressureUnits
     
     var body: some View {
         CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allPressureUnits, textFieldName: "Pressure", standardUnit: .kilopascals, title: "Pressure")

@@ -12,7 +12,7 @@ struct VolumeView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitVolume.cubicMeters
     @State private var volumeValue = 1.0
-    @State private var targetUnits: [UnitVolume] = [UnitVolume.cubicDecimeters]
+    @State private var targetUnits = allVolumeUnits
 
     
     var body: some View {

@@ -34,7 +34,7 @@ struct GridStack: View {
                                     categories[i*3 + j].view()
                                 } label: {
                                     GridLabelView(
-                                        title: categories[i*3 + j].text, imageName: categories[i*3 + j].imageName)
+                                        title: categories[i*3 + j].title, imageName: categories[i*3 + j].imageName)
                                 }
                             }
                         }

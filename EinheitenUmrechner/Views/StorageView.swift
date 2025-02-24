@@ -11,7 +11,7 @@ struct StorageView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitInformationStorage.gigabytes
     @State private var startValue = 1.0
-    @State private var targetUnits: [UnitInformationStorage] = [.bytes]
+    @State private var targetUnits = allInformationStorageUnits
     
     var body: some View {
         CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allInformationStorageUnits, textFieldName: "Storage", standardUnit: .bytes, title: "Storage")
