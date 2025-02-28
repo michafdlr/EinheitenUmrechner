@@ -97,7 +97,7 @@ struct CurrencyView: View {
                                     
                                     Spacer()
                                     
-                                    Text("\(val * amount, specifier: "%.2f")")
+                                    Text("\(val * amount, specifier: "%.3f")")
                                         .bold()
                                 }
                             }

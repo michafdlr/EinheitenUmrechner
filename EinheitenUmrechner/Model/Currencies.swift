@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftData
 
 enum Currency: String, CaseIterable, Codable {
     case inch = "1inch"
@@ -352,6 +352,26 @@ enum Currency: String, CaseIterable, Codable {
     
     static func from(rawValue: String) -> Currency? {
         return self.allCases.first { $0.rawValue.lowercased() == rawValue.lowercased() }
+    }
+}
+
+@Model
+class FavoriteCurrency {
+    var name: Currency
+    var favorited: Bool
+    init(name: Currency, favorited: Bool = false) {
+        self.name = name
+        self.favorited = favorited
+    }
+}
+
+extension FavoriteCurrency {
+    static var allCurrencies: [FavoriteCurrency] {
+        var allCurr = [FavoriteCurrency]()
+        Currency.allCases.forEach { currency in
+            allCurr.append(FavoriteCurrency(name: currency))
+        }
+        return allCurr
     }
 }
 
