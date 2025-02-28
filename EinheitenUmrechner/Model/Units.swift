@@ -111,6 +111,22 @@ let allElectricChargeUnits: [UnitElectricCharge] = [
     .ampereHours, .coulombs, .kiloampereHours, .megaampereHours, .microampereHours, .milliampereHours
 ]
 
+
+
+func getUnit(from symbol: String) -> Dimension? {        
+    let unitArrays: [[Dimension]] = [
+        allAreaUnits, allMassUnits, allAngleUnits, allPowerUnits, allSpeedUnits,allChargeUnits, allEnergyUnits, allLengthUnits, allVolumeUnits, allDurationUnits,
+        allPressureUnits, allFrequencyUnits, allTemperatureUnits, allAccelerationUnits,
+        allElectricChargeUnits, allFuelEfficiencyUnits, allElectricCurrentUnits,
+        allElectricResistanceUnits, allInformationStorageUnits, allElectricPotentialDifferenceUnits
+    ]
+
+    let allUnits = unitArrays.reduce([], +)
+    
+    return allUnits.first { $0.symbol == symbol }
+}
+
+
 var measureFormatter: MeasurementFormatter {
     let formatter = MeasurementFormatter()
     formatter.unitStyle = .long

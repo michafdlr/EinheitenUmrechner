@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%.2f" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.2f"
+          }
+        }
+      }
+    },
     "%@ (%@)" : {
       "localizations" : {
         "de" : {
@@ -33,6 +43,22 @@
         }
       }
     },
+    "%@ %@ (%@)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ (%3$@)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ (%3$@)"
+          }
+        }
+      }
+    },
     "Acceleration" : {
       "localizations" : {
         "de" : {
@@ -43,12 +69,32 @@
         }
       }
     },
-    "Add One" : {
+    "Add Favorite" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine Hinzufügen"
+            "value" : "Favorit hinzufügen"
+          }
+        }
+      }
+    },
+    "All Currencies" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Währungen"
+          }
+        }
+      }
+    },
+    "All Units" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Einheiten"
           }
         }
       }
@@ -99,6 +145,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grundwert"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
+        }
+      }
+    },
+    "Change Favorite Units" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ändere Favoriten"
           }
         }
       }
@@ -233,6 +299,16 @@
         }
       }
     },
+    "Favorite Units" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoriten"
+          }
+        }
+      }
+    },
     "Frequency" : {
       "localizations" : {
         "de" : {
@@ -249,6 +325,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Treibstoffeffizienz"
+          }
+        }
+      }
+    },
+    "Hide All" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verstecke alle"
           }
         }
       }
@@ -283,6 +369,16 @@
         }
       }
     },
+    "No favorite units selected. Tap plus or swipe in \"All Units\" section to add favorite units." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Favoriten ausgewählt. Drücke plus oder wische unter „Alle Einheiten“ um Favoriten hinzuzufügen."
+          }
+        }
+      }
+    },
     "Please make sure you are connected to the internet!" : {
       "localizations" : {
         "de" : {
@@ -313,6 +409,26 @@
         }
       }
     },
+    "Remove Favorite" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorit entfernen"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern"
+          }
+        }
+      }
+    },
     "Search Category" : {
       "localizations" : {
         "de" : {
@@ -329,6 +445,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suche Währung"
+          }
+        }
+      }
+    },
+    "Search from all Units" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche unter allen Einheiten"
           }
         }
       }
@@ -363,6 +489,26 @@
         }
       }
     },
+    "Select Unit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle Einheit"
+          }
+        }
+      }
+    },
+    "Selected" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählt"
+          }
+        }
+      }
+    },
     "Selected Currency" : {
       "localizations" : {
         "de" : {
@@ -383,16 +529,6 @@
         }
       }
     },
-    "Show One" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige eine"
-          }
-        }
-      }
-    },
     "Speed" : {
       "localizations" : {
         "de" : {
@@ -403,42 +539,12 @@
         }
       }
     },
-    "Storage" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speicher"
-          }
-        }
-      }
-    },
     "Symbol" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Symbol"
-          }
-        }
-      }
-    },
-    "Target Currencies" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zielwährungen"
-          }
-        }
-      }
-    },
-    "Target Units" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zieleinheiten"
           }
         }
       }

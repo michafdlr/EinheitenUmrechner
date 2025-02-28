@@ -10,10 +10,10 @@ import SwiftUI
 struct ElectricCurrentView: View {
     @FocusState private var valueIsFocused
     @State private var startUnit = UnitElectricCurrent.amperes
-    @State private var startValue = 12.0
+    @State private var startValue = 1.0
     @State private var targetUnits = allElectricCurrentUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allElectricCurrentUnits, textFieldName: "Electric Current", standardUnit: .milliamperes, title: "Electric Current")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allElectricCurrentUnits, textFieldName: "Electric Current", standardUnit: .milliamperes, title: "Electric Current")
     }
 }

@@ -14,6 +14,6 @@ struct AreaView: View {
     @State private var targetUnits = allAreaUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allAreaUnits, textFieldName: "Area", standardUnit: .squareMeters, title: "Area")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allAreaUnits, textFieldName: "Area", standardUnit: .squareMeters, title: "Area")
     }
 }

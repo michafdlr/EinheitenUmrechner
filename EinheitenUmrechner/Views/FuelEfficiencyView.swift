@@ -14,6 +14,6 @@ struct FuelEfficiencyView: View {
     @State private var targetUnits = allFuelEfficiencyUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allFuelEfficiencyUnits, textFieldName: "Fuel Efficiency", standardUnit: .milesPerGallon, title: "Fuel Efficiency")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allFuelEfficiencyUnits, textFieldName: "Fuel Efficiency", standardUnit: .milesPerGallon, title: "Fuel Efficiency")
     }
 }

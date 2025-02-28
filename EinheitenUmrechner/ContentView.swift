@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) var modelContext
+    
     @EnvironmentObject var networkMonitor: NetworkMonitor
     @State private var searchText = ""
     @State private var categoriesSortedAscending = true
     @State private var angle = 0.0
+    
+    @Query var categoryNames: [CategoryName]
 
     var sortedCategories: [Category] {
         if categoriesSortedAscending {
@@ -51,7 +56,7 @@ struct ContentView: View {
         }
         .searchable(
             text: $searchText,
-            placement: .navigationBarDrawer(displayMode: .always),
+            placement: .navigationBarDrawer(displayMode: .automatic),
             prompt: "Search Category")
     }
 }
@@ -60,4 +65,5 @@ struct ContentView: View {
     @Previewable @StateObject var networkMonitor = NetworkMonitor()
     ContentView()
         .environmentObject(networkMonitor)
+//        .modelContainer(for: [CategoryName.self, Favorite.self], inMemory: true)
 }

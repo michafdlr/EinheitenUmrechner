@@ -14,6 +14,6 @@ struct LengthView: View {
     @State private var targetUnits = allLengthUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $lengthValue, targetUnits: $targetUnits, allUnits: allLengthUnits, textFieldName: "Length", standardUnit: .meters, title: "Length")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $lengthValue, sortedUnits: $targetUnits, allUnits: allLengthUnits, textFieldName: "Length", standardUnit: .meters, title: "Length")
     }
 }

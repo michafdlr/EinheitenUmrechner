@@ -14,6 +14,6 @@ struct DurationView: View {
     @State private var targetUnits = allDurationUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $areaValue, targetUnits: $targetUnits, allUnits: allDurationUnits, textFieldName: "Time", standardUnit: .minutes, title: "Time")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $areaValue, sortedUnits: $targetUnits, allUnits: allDurationUnits, textFieldName: "Time", standardUnit: .minutes, title: "Time")
     }
 }

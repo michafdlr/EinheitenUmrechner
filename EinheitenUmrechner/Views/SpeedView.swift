@@ -14,7 +14,7 @@ struct SpeedView: View {
     @State private var targetUnits = allSpeedUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allSpeedUnits, textFieldName: "Speed", standardUnit: .metersPerSecond, title: "Speed")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allSpeedUnits, textFieldName: "Speed", standardUnit: .metersPerSecond, title: "Speed")
     }
 }
 

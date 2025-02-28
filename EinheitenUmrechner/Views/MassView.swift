@@ -15,6 +15,6 @@ struct MassView: View {
     
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allMassUnits, textFieldName: "Mass", standardUnit: .kilograms, title: "Mass")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allMassUnits, textFieldName: "Mass", standardUnit: .kilograms, title: "Mass")
     }
 }

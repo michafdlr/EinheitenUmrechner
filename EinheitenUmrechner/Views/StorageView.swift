@@ -14,7 +14,7 @@ struct StorageView: View {
     @State private var targetUnits = allInformationStorageUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allInformationStorageUnits, textFieldName: "Storage", standardUnit: .bytes, title: "Storage")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allInformationStorageUnits, textFieldName: "Information Storage", standardUnit: .bytes, title: "Information Storage")
     }
 }
 

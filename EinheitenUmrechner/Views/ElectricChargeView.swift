@@ -14,6 +14,6 @@ struct ElectricChargeView: View {
     @State private var targetUnits = allElectricChargeUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allElectricChargeUnits, textFieldName: "Angle", standardUnit: .ampereHours, title: "Angle")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allElectricChargeUnits, textFieldName: "Electric Charge", standardUnit: .ampereHours, title: "Electric Charge")
     }
 }

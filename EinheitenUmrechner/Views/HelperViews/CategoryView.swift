@@ -5,24 +5,27 @@
 //  Created by Michael Fiedler on 16.02.25.
 //
 
+import SwiftData
 import SwiftUI
 
-struct CategoryView<T: Dimension>: View {    
+struct CategoryView<T: Dimension>: View {
+    @Environment(\.modelContext) var modelContext
+
     @FocusState.Binding var valueIsFocused: Bool
     @Binding var startUnit: T
     @Binding var startValue: Double
-    @Binding var targetUnits: [T]
-    
-    let allUnits: [T]
+    @Binding var sortedUnits: [T]
+
+    var allUnits: [T]
     let textFieldName: String
     let standardUnit: T
     let title: LocalizedStringResource
-    
 
     @State private var allUnitsShowing = true
     @State private var searchText = ""
     @State private var sheetIsShowing = false
     @State private var unitsSortedAscending = true
+    @State private var sortedFavorites = [Favorite]()
 
     var textInputWidth: CGFloat {
         UIScreen.main.bounds.width * 0.5
@@ -31,17 +34,75 @@ struct CategoryView<T: Dimension>: View {
     var valueMeasure: Measurement<T> {
         Measurement(value: startValue, unit: startUnit)
     }
-    
-    
-    func sortTargetUnits() {
+
+    @Query var categoryNames: [CategoryName]
+
+    var category: CategoryName {
+        categoryNames.first {
+            $0.name.localizedLowercase == textFieldName.localizedLowercase
+        } ?? CategoryName(name: "Not found")
+    }
+
+    var favorites: [Favorite] {
+        category.favorites
+    }
+
+    var filteredUnits: [T] {
+        if searchText.isEmpty {
+            return sortedUnits
+        }
+        return sortedUnits.filter {
+            measureFormatter.string(from: $0).localizedStandardContains(
+                searchText) || $0.symbol.localizedStandardContains(searchText)
+        }
+    }
+
+    func sortFavorites() {
+        sortedFavorites = favorites.sorted { fav1, fav2 in
+            let unit1 = getUnit(from: fav1.unitSymbol)
+            let unit2 = getUnit(from: fav2.unitSymbol)
+            if unitsSortedAscending {
+                return measureFormatter.string(from: unit1!).localizedLowercase
+                    <= measureFormatter.string(from: unit2!).localizedLowercase
+            }
+            return measureFormatter.string(from: unit1!).localizedLowercase
+                > measureFormatter.string(from: unit2!).localizedLowercase
+        }
+    }
+
+    func sortAllUnits() {
         if unitsSortedAscending {
-            targetUnits = targetUnits.sorted {
-                measureFormatter.string(from: $0).localizedLowercase <= measureFormatter.string(from: $1).localizedLowercase
+            sortedUnits = allUnits.sorted {
+                measureFormatter.string(from: $0).localizedLowercase
+                    <= measureFormatter.string(from: $1).localizedLowercase
             }
         } else {
-            targetUnits = targetUnits.sorted {
-                measureFormatter.string(from: $0).localizedLowercase > measureFormatter.string(from: $1).localizedLowercase
+            sortedUnits = allUnits.sorted {
+                measureFormatter.string(from: $0).localizedLowercase
+                    > measureFormatter.string(from: $1).localizedLowercase
             }
+        }
+    }
+
+    func deleteFavorites(_ indexSet: IndexSet) {
+        for index in indexSet {
+            let favorite = sortedFavorites[index]
+            modelContext.delete(favorite)
+            category.favorites.removeAll {
+                $0.unitSymbol == favorite.unitSymbol
+            }
+        }
+    }
+
+    func modifyFavorites(unit: T) {
+        let favorite = Favorite(name: unit, categoryName: category)
+        if category.favorites.contains(where: { $0.unitSymbol == unit.symbol })
+        {
+            modelContext.delete(favorite)
+            category.favorites.removeAll { $0.unitSymbol == unit.symbol }
+        } else {
+            modelContext.insert(favorite)
+            category.favorites.append(favorite)
         }
     }
 
@@ -58,48 +119,102 @@ struct CategoryView<T: Dimension>: View {
                         allUnits: allUnits)
                 }
 
-                Section("Target Units") {
-                    ForEach(targetUnits.indices, id: \.self) { index in
-                        TargetUnitView(
-                            targetValue: getTargetValue(
-                                targetUnit: targetUnits[index],
-                                measure: valueMeasure),
-                            textInputWidth: textInputWidth * 2,
-                            targetUnit: $targetUnits[index],
-                            allUnits: allUnits
+                Section("Favorite Units") {
+                    if favorites.isEmpty {
+                        Text(
+                            "No favorite units selected. Tap plus or swipe in \"All Units\" section to add favorite units."
                         )
-                    }
-                    .onDelete { index in
-                        targetUnits.remove(atOffsets: index)
-                        allUnitsShowing = false
-                    }
-                    .onChange(of: unitsSortedAscending) {
-                        withAnimation(.easeInOut) {
-                            sortTargetUnits()
+                    } else {
+                        ForEach(sortedFavorites) { favorite in
+                            let unit =
+                                getUnit(from: favorite.unitSymbol)
+                                ?? standardUnit
+                            TargetUnitView(
+                                targetValue: getTargetValue(
+                                    targetUnit: unit as! T,
+                                    measure: valueMeasure),
+                                textInputWidth: textInputWidth * 2,
+                                targetUnit: .constant(unit as! T),
+                                allUnits: allUnits
+                            )
+                        }
+                        .onDelete(perform: deleteFavorites)
+                        .onChange(of: unitsSortedAscending) {
+                            withAnimation(.easeInOut) {
+                                sortFavorites()
+                            }
+                        }
+                        .onChange(of: category.favorites) {
+                            sortFavorites()
                         }
                     }
-                    .onChange(of: targetUnits) {
-                        sortTargetUnits()
+                }
+
+                if allUnitsShowing {
+                    Section("All Units") {
+                        ForEach(filteredUnits.indices, id: \.self) { index in
+                            TargetUnitView(
+                                targetValue: getTargetValue(
+                                    targetUnit: filteredUnits[index],
+                                    measure: valueMeasure),
+                                textInputWidth: textInputWidth * 2,
+                                targetUnit: .constant(filteredUnits[index]),
+                                allUnits: allUnits
+                            )
+                            .swipeActions {
+                                Button {
+                                    modifyFavorites(unit: filteredUnits[index])
+                                } label: {
+                                    if category.favorites.contains(where: {
+                                        $0.unitSymbol
+                                            == filteredUnits[index].symbol
+                                    }) {
+                                        Label(
+                                            "Remove Favorite",
+                                            systemImage: "minus.circle"
+                                        )
+                                        .tint(.red)
+                                    } else {
+                                        Label(
+                                            "Add Favorite",
+                                            systemImage: "plus.circle"
+                                        )
+                                        .tint(.green)
+                                    }
+                                }
+                            }
+                        }
+                        .onChange(of: unitsSortedAscending) {
+                            withAnimation(.easeInOut) {
+                                sortAllUnits()
+                            }
+                        }
+                        .onChange(of: category.favorites) {
+                            sortFavorites()
+                        }
                     }
-                    
                 }
             }
+            .searchable(
+                text: $searchText,
+                placement: .navigationBarDrawer(displayMode: .always),
+                prompt: "Search from all Units"
+            )
             .toolbar {
                 Button(allUnitsShowing ? "Hide All" : "Show All") {
-                    targetUnits = allUnitsShowing ? [] : allUnits
                     allUnitsShowing.toggle()
                 }
-                
+
                 SortButtonView(sortedAscending: $unitsSortedAscending)
-                
-                if !allUnitsShowing {
-                    Button("Add Target Unit", systemImage: "plus") {
-                        sheetIsShowing.toggle()
-                    }
-                    .sheet(isPresented: $sheetIsShowing) {
-                        AddUnitSheetView(targetUnits: $targetUnits, allUnits: allUnits)
-                    }
+
+                Button("Change Favorite Units", systemImage: "plus.circle.fill")
+                {
+                    sheetIsShowing.toggle()
                 }
+                .sheet(isPresented: $sheetIsShowing) {
+                    AddUnitSheetView(category: category, allUnits: allUnits)
+                }
+
                 if valueIsFocused {
                     Button("Done") {
                         valueIsFocused = false
@@ -108,6 +223,10 @@ struct CategoryView<T: Dimension>: View {
             }
             .navigationTitle("Convert \(title)")
         }
-        .onAppear(perform: sortTargetUnits)
+        .onAppear {
+            sortedFavorites = favorites
+            sortFavorites()
+            sortAllUnits()
+        }
     }
 }

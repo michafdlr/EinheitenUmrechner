@@ -14,7 +14,7 @@ struct PressureView: View {
     @State private var targetUnits = allPressureUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allPressureUnits, textFieldName: "Pressure", standardUnit: .kilopascals, title: "Pressure")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allPressureUnits, textFieldName: "Pressure", standardUnit: .kilopascals, title: "Pressure")
     }
 }
 

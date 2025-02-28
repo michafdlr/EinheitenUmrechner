@@ -7,6 +7,79 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
+
+@Model
+class Favorite: Identifiable {
+    var id = UUID()
+    var unitSymbol: String
+    var categoryName: CategoryName
+    
+    init(name: Dimension, categoryName: CategoryName) {
+        self.unitSymbol = name.symbol
+        self.categoryName = categoryName
+    }
+    
+//    var unit: Dimension? {
+//        UnitFactory.unit(from: unitSymbol)
+//    }
+}
+
+@Model
+class CategoryName {
+    var name: String
+    var favorites: [Favorite]
+    
+    init(name: String, favorites: [Favorite] = [Favorite]()) {
+        self.name = name
+        self.favorites = favorites
+    }
+}
+
+extension CategoryName {
+    static var allCategoryNames: [CategoryName] {
+        [
+            .init(name: "Angle"),
+            .init(name: "Area"),
+            .init(name: "Length"),
+            .init(name: "Volume"),
+            .init(name: "Mass"),
+            .init(name: "Temperature"),
+            .init(name: "Time"),
+            .init(name: "Electric Current"),
+            .init(name: "Acceleration"),
+            .init(name: "Energy"),
+            .init(name: "Electric Charge"),
+            .init(name: "Frequency"),
+            .init(name: "Fuel Efficiency"),
+            .init(name: "Electric Resistance"),
+            .init(name: "Pressure"),
+            .init(name: "Power"),
+            .init(name: "Speed"),
+            .init(name: "Information Storage"),
+            .init(name: "Electric Potential"),
+        ]
+    }
+}
+
+actor CategoriesContainer {
+    @MainActor
+    static func createCategories(shouldCreateDefault: inout Bool) -> ModelContainer? {
+        let schema = Schema([CategoryName.self, Favorite.self])
+        let config = ModelConfiguration()
+        do {
+            let container = try ModelContainer(for: schema, configurations: config)
+            if shouldCreateDefault {
+                CategoryName.allCategoryNames.forEach { container.mainContext.insert($0) }
+                shouldCreateDefault = false
+            }
+            return container
+        } catch {
+            print("Failed to instantiate model container with error: \(error)")
+            return nil
+        }
+    }
+}
 
 struct Category: Identifiable {
     var id = UUID().uuidString

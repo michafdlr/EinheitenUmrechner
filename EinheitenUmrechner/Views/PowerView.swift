@@ -14,7 +14,7 @@ struct PowerView: View {
     @State private var targetUnits = allPowerUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allPowerUnits, textFieldName: "Power", standardUnit: .horsepower, title: "Power")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allPowerUnits, textFieldName: "Power", standardUnit: .horsepower, title: "Power")
     }
 }
 

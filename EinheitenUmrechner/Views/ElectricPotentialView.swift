@@ -14,7 +14,7 @@ struct ElectricPotentialView: View {
     @State private var targetUnits = allElectricPotentialDifferenceUnits
     
     var body: some View {
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, targetUnits: $targetUnits, allUnits: allElectricPotentialDifferenceUnits, textFieldName: "Electric Potential", standardUnit: .kilovolts, title: "Electric Potential")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $startValue, sortedUnits: $targetUnits, allUnits: allElectricPotentialDifferenceUnits, textFieldName: "Electric Potential", standardUnit: .kilovolts, title: "Electric Potential")
     }
 }
 

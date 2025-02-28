@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CurrencyView: View {
     @EnvironmentObject var networkMonitor: NetworkMonitor
-    
+
     let baseUrl =
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/"
 
@@ -20,6 +20,7 @@ struct CurrencyView: View {
     @State private var searchText = ""
     @State private var sortedAscending = true
     @State private var sortedResult = Array([String: Double]())
+    @State private var allUnitsShowing = true
 
     var textFieldWidth: CGFloat {
         UIScreen.main.bounds.width * 0.5
@@ -35,7 +36,7 @@ struct CurrencyView: View {
                 || key.localizedStandardContains(searchText)
         }
     }
-    
+
     func sortResults() {
         if sortedAscending {
             sortedResult = filteredResult.sorted {
@@ -63,40 +64,42 @@ struct CurrencyView: View {
                                 .frame(width: textFieldWidth * 0.7)
                                 .keyboardType(.decimalPad)
                                 .focused($valueIsFocused)
-                                
+
                                 Text(selectedCurrency.localizedCapitalized)
                                     .bold()
                             }
                             .frame(width: textFieldWidth)
-                            
+
                             Divider()
-                            
+
                             NavigationLink("Currency") {
                                 CurrencySelectionView(
                                     selectedCurrency: $selectedCurrency
                                 )
                                 .onChange(of: selectedCurrency) {
                                     Task {
-                                        await getData(currency: selectedCurrency)
+                                        await getData(
+                                            currency: selectedCurrency)
                                     }
                                 }
                             }
                         }
                     }
-                    
-                    Section("Target Currencies") {
-                        ForEach(
-                            sortedResult,
-                            id: \.key
-                        ) {
-                            key, val in
-                            HStack {
-                                Text(getFullCurrencyName(from: key))
-                                
-                                Spacer()
-                                
-                                Text("\(val * amount, specifier: "%.2f")")
-                                    .bold()
+                    if allUnitsShowing {
+                        Section("All Currencies") {
+                            ForEach(
+                                sortedResult,
+                                id: \.key
+                            ) {
+                                key, val in
+                                HStack {
+                                    Text(getFullCurrencyName(from: key))
+
+                                    Spacer()
+
+                                    Text("\(val * amount, specifier: "%.2f")")
+                                        .bold()
+                                }
                             }
                         }
                     }
@@ -113,6 +116,11 @@ struct CurrencyView: View {
                 }
                 .navigationTitle("Convert Currency")
                 .toolbar {
+                    Button(allUnitsShowing ? "Hide All" : "Show All") {
+                        //                        sortedResult = allUnitsShowing ? Array([String: Double]()) : result
+                        allUnitsShowing.toggle()
+                    }
+
                     SortButtonView(sortedAscending: $sortedAscending)
                     if valueIsFocused {
                         Button("Done") {

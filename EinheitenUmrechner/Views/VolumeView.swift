@@ -17,6 +17,6 @@ struct VolumeView: View {
     
     var body: some View {
         
-        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $volumeValue, targetUnits: $targetUnits, allUnits: allVolumeUnits, textFieldName: "Volume", standardUnit: .liters, title: "Volume")
+        CategoryView(valueIsFocused: $valueIsFocused, startUnit: $startUnit, startValue: $volumeValue, sortedUnits: $targetUnits, allUnits: allVolumeUnits, textFieldName: "Volume", standardUnit: .liters, title: "Volume")
     }
 }
