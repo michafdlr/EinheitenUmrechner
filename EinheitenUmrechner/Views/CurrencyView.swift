@@ -94,24 +94,24 @@ struct CurrencyView: View {
                                 key, val in
                                 HStack {
                                     Text(getFullCurrencyName(from: key))
-
+                                    
                                     Spacer()
-
+                                    
                                     Text("\(val * amount, specifier: "%.2f")")
                                         .bold()
                                 }
                             }
                         }
-                    }
-                    .task {
-                        await getData(currency: selectedCurrency)
-                        sortResults()
-                    }
-                    .onChange(of: sortedAscending) {
-                        sortResults()
-                    }
-                    .onChange(of: filteredResult) {
-                        sortResults()
+                        .task {
+                            await getData(currency: selectedCurrency)
+                            sortResults()
+                        }
+                        .onChange(of: sortedAscending) {
+                            sortResults()
+                        }
+                        .onChange(of: filteredResult) {
+                            sortResults()
+                        }
                     }
                 }
                 .navigationTitle("Convert Currency")
