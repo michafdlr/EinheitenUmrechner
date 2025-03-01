@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%.2f" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -10,6 +11,9 @@
           }
         }
       }
+    },
+    "%.3f" : {
+
     },
     "%@ (%@)" : {
       "localizations" : {
@@ -299,6 +303,9 @@
         }
       }
     },
+    "Favorite Currencies" : {
+
+    },
     "Favorite Units" : {
       "localizations" : {
         "de" : {
@@ -378,6 +385,9 @@
           }
         }
       }
+    },
+    "No favorites selected" : {
+
     },
     "Please make sure you are connected to the internet!" : {
       "localizations" : {
@@ -488,6 +498,9 @@
           }
         }
       }
+    },
+    "Select Currency" : {
+
     },
     "Select Unit" : {
       "localizations" : {

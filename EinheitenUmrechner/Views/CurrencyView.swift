@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CurrencyView: View {
     @EnvironmentObject var networkMonitor: NetworkMonitor
@@ -21,6 +22,11 @@ struct CurrencyView: View {
     @State private var sortedAscending = true
     @State private var sortedResult = Array([String: Double]())
     @State private var allUnitsShowing = true
+    @State private var sheetIsShowing = false
+    
+    @Query(filter: #Predicate<FavoriteCurrency> {
+        $0.favorited == true
+    }, sort: \FavoriteCurrency.rawName) var favorites: [FavoriteCurrency]
 
     var textFieldWidth: CGFloat {
         UIScreen.main.bounds.width * 0.5
@@ -85,6 +91,30 @@ struct CurrencyView: View {
                             }
                         }
                     }
+                    
+                    Section("Favorite Currencies") {
+                        if favorites.isEmpty {
+                            Text("No favorites selected")
+                        } else {
+                            ForEach(favorites) { favorite in
+//                                let key = favorite.name
+//                                let cur = String(describing: key)
+                                HStack{
+                                    Text(favorite.rawName)
+                                    
+                                    Spacer()
+                                    
+                                    Text("\(result[String(describing: favorite.name)] ?? 0.0 * amount, specifier: "%.3f")")
+                                        .bold()
+                                }
+                            }
+                        }
+                    }
+//                    .task {
+//                        await getData(currency: selectedCurrency)
+//                        sortResults()
+//                    }
+                    
                     if allUnitsShowing {
                         Section("All Currencies") {
                             ForEach(
@@ -117,11 +147,19 @@ struct CurrencyView: View {
                 .navigationTitle("Convert Currency")
                 .toolbar {
                     Button(allUnitsShowing ? "Hide All" : "Show All") {
-                        //                        sortedResult = allUnitsShowing ? Array([String: Double]()) : result
                         allUnitsShowing.toggle()
                     }
 
                     SortButtonView(sortedAscending: $sortedAscending)
+                    
+                    Button("Change Favorite Units", systemImage: "plus.circle.fill")
+                    {
+                        sheetIsShowing.toggle()
+                    }
+                    .sheet(isPresented: $sheetIsShowing) {
+                        AddCurrencySheetView()
+                    }
+                    
                     if valueIsFocused {
                         Button("Done") {
                             valueIsFocused = false

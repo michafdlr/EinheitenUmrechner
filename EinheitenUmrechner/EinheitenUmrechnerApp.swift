@@ -19,7 +19,7 @@ struct EinheitenUmrechnerApp: App {
             } else {
                 // Handle the failure: Fallback to an empty container
                 print("Failed to create ModelContainer, using fallback.")
-                return try! ModelContainer(for: Schema([CategoryName.self, Favorite.self]))
+                return try! ModelContainer(for: Schema([CategoryName.self, Favorite.self, FavoriteCurrency.self]))
             }
         }
     

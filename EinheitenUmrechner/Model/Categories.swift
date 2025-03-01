@@ -65,12 +65,13 @@ extension CategoryName {
 actor CategoriesContainer {
     @MainActor
     static func createCategories(shouldCreateDefault: inout Bool) -> ModelContainer? {
-        let schema = Schema([CategoryName.self, Favorite.self])
+        let schema = Schema([CategoryName.self, Favorite.self, FavoriteCurrency.self])
         let config = ModelConfiguration()
         do {
             let container = try ModelContainer(for: schema, configurations: config)
             if shouldCreateDefault {
                 CategoryName.allCategoryNames.forEach { container.mainContext.insert($0) }
+                FavoriteCurrency.allCurrencies.forEach { container.mainContext.insert($0)}
                 shouldCreateDefault = false
             }
             return container
