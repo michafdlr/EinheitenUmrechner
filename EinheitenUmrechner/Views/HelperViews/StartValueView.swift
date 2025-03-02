@@ -27,6 +27,7 @@ struct StartValueView<T: Dimension>: View {
                     .focused($valueIsFocused)
                 
                 Text(startUnit.symbol)
+                    .bold()
             }
             .frame(width: textInputWidth, alignment: .topLeading)
             

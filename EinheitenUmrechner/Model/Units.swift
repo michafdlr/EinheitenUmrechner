@@ -68,7 +68,7 @@ let allFrequencyUnits: [UnitFrequency] = [
 ]
 
 let allFuelEfficiencyUnits: [UnitFuelEfficiency] = [
-    .litersPer100Kilometers, .milesPerGallon, .milesPerImperialGallon,
+    .litersPer100Kilometers, .milesPerGallon,
 ]
 
 let allPowerUnits: [UnitPower] = [

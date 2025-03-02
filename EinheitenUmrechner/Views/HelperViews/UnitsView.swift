@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UnitsView<UnitType: Dimension>: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var selectedUnit: UnitType
     @State private var searchText = ""
     
@@ -54,9 +55,15 @@ struct UnitsView<UnitType: Dimension>: View {
                         }
                         .onTapGesture {
                             selectedUnit = unit
+//                            dismiss()
                         }
                     }
                     
+                }
+                .toolbar{
+                    Button("Accept") {
+                        dismiss()
+                    }
                 }
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Unit")
             }

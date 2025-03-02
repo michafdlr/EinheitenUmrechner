@@ -59,14 +59,14 @@ struct CategoryView<T: Dimension>: View {
 
     func sortFavorites() {
         sortedFavorites = favorites.sorted { fav1, fav2 in
-            let unit1 = getUnit(from: fav1.unitSymbol)
-            let unit2 = getUnit(from: fav2.unitSymbol)
+            guard let unit1 = getUnit(from: fav1.unitSymbol) as? T,
+                  let unit2 = getUnit(from: fav2.unitSymbol) as? T else {return false}
             if unitsSortedAscending {
-                return measureFormatter.string(from: unit1!).localizedLowercase
-                    <= measureFormatter.string(from: unit2!).localizedLowercase
+                return measureFormatter.string(from: unit1).localizedLowercase
+                <= measureFormatter.string(from: unit2).localizedLowercase
             }
-            return measureFormatter.string(from: unit1!).localizedLowercase
-                > measureFormatter.string(from: unit2!).localizedLowercase
+            return measureFormatter.string(from: unit1).localizedLowercase
+                > measureFormatter.string(from: unit2).localizedLowercase
         }
     }
 
@@ -126,17 +126,17 @@ struct CategoryView<T: Dimension>: View {
                         )
                     } else {
                         ForEach(sortedFavorites) { favorite in
-                            let unit =
-                                getUnit(from: favorite.unitSymbol)
-                                ?? standardUnit
-                            TargetUnitView(
-                                targetValue: getTargetValue(
-                                    targetUnit: unit as! T,
-                                    measure: valueMeasure),
-                                textInputWidth: textInputWidth * 2,
-                                targetUnit: .constant(unit as! T),
-                                allUnits: allUnits
-                            )
+                            if let unit =
+                                getUnit(from: favorite.unitSymbol) as? T {
+                                TargetUnitView(
+                                    targetValue: getTargetValue(
+                                        targetUnit: unit,
+                                        measure: valueMeasure),
+                                    textInputWidth: textInputWidth * 2,
+                                    targetUnit: .constant(unit),
+                                    allUnits: allUnits
+                                )
+                            }
                         }
                         .onDelete(perform: deleteFavorites)
                         .onChange(of: unitsSortedAscending) {

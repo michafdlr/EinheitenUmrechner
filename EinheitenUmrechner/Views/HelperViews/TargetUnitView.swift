@@ -15,12 +15,22 @@ struct TargetUnitView<T: Dimension>: View {
     let allUnits: [T]
 
     var body: some View {
-        Text(
-            measureFormatter.string(from: targetUnit) == targetUnit.symbol
-                ? "\(targetValue.value.formatted()) \(targetUnit.symbol)"
-                : "\(targetValue.value.formatted()) \(measureFormatter.string(from: targetUnit).localizedCapitalized) (\(targetUnit.symbol))"
-        )
-        .multilineTextAlignment(.leading)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        HStack {
+            Text(targetValue.value.formatted())
+                .bold()
+            
+            Spacer()
+            
+            Text(measureFormatter.string(from: targetUnit) == targetUnit.symbol
+                 ? targetUnit.symbol
+                 : "\(measureFormatter.string(from: targetUnit).localizedCapitalized) (\(targetUnit.symbol))")
+        }
+//        Text(
+//            measureFormatter.string(from: targetUnit) == targetUnit.symbol
+//                ? "\(targetValue.value.formatted()) \(targetUnit.symbol)"
+//                : "\(targetValue.value.formatted()) \(measureFormatter.string(from: targetUnit).localizedCapitalized) (\(targetUnit.symbol))"
+//        )
+//        .multilineTextAlignment(.leading)
+//        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

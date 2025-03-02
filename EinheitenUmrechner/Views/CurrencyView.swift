@@ -5,8 +5,8 @@
 //  Created by Michael Fiedler on 19.02.25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct CurrencyView: View {
     @EnvironmentObject var networkMonitor: NetworkMonitor
@@ -23,10 +23,16 @@ struct CurrencyView: View {
     @State private var sortedResult = Array([String: Double]())
     @State private var allUnitsShowing = true
     @State private var sheetIsShowing = false
-    
-    @Query(filter: #Predicate<FavoriteCurrency> {
-        $0.favorited == true
-    }, sort: \FavoriteCurrency.rawName) var favorites: [FavoriteCurrency]
+    @State private var isLoading = true
+
+    @Query(
+        filter: #Predicate<FavoriteCurrency> {
+            $0.favorited == true
+        }, sort: \FavoriteCurrency.rawName, animation: .easeIn) var favorites:
+        [FavoriteCurrency]
+
+    @Query(sort: \FavoriteCurrency.rawName) var allCurrencies:
+        [FavoriteCurrency]
 
     var textFieldWidth: CGFloat {
         UIScreen.main.bounds.width * 0.5
@@ -43,14 +49,20 @@ struct CurrencyView: View {
         }
     }
 
+    var calculatedResults: [String: Double] {
+        result.mapValues { $0 * amount }
+    }
+
     func sortResults() {
         if sortedAscending {
             sortedResult = filteredResult.sorted {
-                $0.key <= $1.key
+                getFullCurrencyName(from: $0.key)
+                    <= getFullCurrencyName(from: $1.key)
             }
         } else {
             sortedResult = filteredResult.sorted {
-                $0.key > $1.key
+                getFullCurrencyName(from: $0.key)
+                    > getFullCurrencyName(from: $1.key)
             }
         }
     }
@@ -91,55 +103,105 @@ struct CurrencyView: View {
                             }
                         }
                     }
-                    
+
                     Section("Favorite Currencies") {
-                        if favorites.isEmpty {
-                            Text("No favorites selected")
+                        if isLoading {
+                            VStack {
+                                if favorites.count > 0 {
+                                    ForEach(0..<favorites.count, id: \.self) { _ in
+                                        LoadSkeletonView()
+                                    }
+                                } else {
+                                    LoadSkeletonView()
+                                }
+                            }
+//                            .blinking(duration: 2)
+                        } else if favorites.isEmpty {
+                            Text(
+                                "No favorite units selected. Tap plus or swipe in \"All Units\" section to add favorite units."
+                            )
                         } else {
                             ForEach(favorites) { favorite in
-//                                let key = favorite.name
-//                                let cur = String(describing: key)
-                                HStack{
-                                    Text(favorite.rawName)
-                                    
+                                HStack {
+                                    Text(
+                                        "\(calculatedResults[String(describing: favorite.name)] ?? 0.0 * amount, specifier: "%.3f")"
+                                    )
+                                    .bold()
+
                                     Spacer()
-                                    
-                                    Text("\(result[String(describing: favorite.name)] ?? 0.0 * amount, specifier: "%.3f")")
-                                        .bold()
+
+                                    Text(favorite.rawName)
+                                }
+                            }
+                            .onDelete { indexSet in
+                                for index in indexSet {
+                                    favorites[index].favorited = false
                                 }
                             }
                         }
                     }
-//                    .task {
-//                        await getData(currency: selectedCurrency)
-//                        sortResults()
-//                    }
-                    
+
                     if allUnitsShowing {
                         Section("All Currencies") {
-                            ForEach(
-                                sortedResult,
-                                id: \.key
-                            ) {
-                                key, val in
-                                HStack {
-                                    Text(getFullCurrencyName(from: key))
-                                    
-                                    Spacer()
-                                    
-                                    Text("\(val * amount, specifier: "%.3f")")
+                            if isLoading {
+                                VStack {
+                                    ForEach(0..<10, id: \.self) { _ in
+                                        LoadSkeletonView()
+                                    }
+                                }
+//                                .blinking(duration: 2)
+                            } else {
+                                ForEach(sortedResult, id: \.key) {
+                                    key, val in
+                                    HStack {
+                                        Text( "\(val * amount, specifier: "%.3f")")
                                         .bold()
+
+                                        Spacer()
+
+                                        Text(getFullCurrencyName(from: key))
+                                    }
+                                    .swipeActions {
+                                        let fullName = getFullCurrencyName(
+                                            from: key
+                                        ).localizedLowercase
+                                        let favorited =
+                                            favorites.count > 0 && favorites.contains(where: {
+                                                $0.rawName.localizedLowercase == fullName && $0.favorited
+                                            })
+                                        Button {
+                                            let index =
+                                                allCurrencies.firstIndex(
+                                                    where: { $0.rawName.localizedLowercase == fullName })!
+                                            allCurrencies[index].favorited
+                                                .toggle()
+                                        } label: {
+                                            if favorited {
+                                                Label(
+                                                    "Remove Favorite",
+                                                    systemImage: "minus.circle"
+                                                )
+                                                .tint(.red)
+                                            } else {
+                                                Label(
+                                                    "Add Favorite",
+                                                    systemImage: "plus.circle"
+                                                )
+                                                .tint(.green)
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        .task {
-                            await getData(currency: selectedCurrency)
-                            sortResults()
                         }
                         .onChange(of: sortedAscending) {
                             sortResults()
                         }
                         .onChange(of: filteredResult) {
+                            sortResults()
+                        }
+                        .task {
+                            await getData(currency: selectedCurrency)
                             sortResults()
                         }
                     }
@@ -151,15 +213,16 @@ struct CurrencyView: View {
                     }
 
                     SortButtonView(sortedAscending: $sortedAscending)
-                    
-                    Button("Change Favorite Units", systemImage: "plus.circle.fill")
-                    {
+
+                    Button(
+                        "Change Favorite Units", systemImage: "plus.circle.fill"
+                    ) {
                         sheetIsShowing.toggle()
                     }
                     .sheet(isPresented: $sheetIsShowing) {
                         AddCurrencySheetView()
                     }
-                    
+
                     if valueIsFocused {
                         Button("Done") {
                             valueIsFocused = false
@@ -178,10 +241,13 @@ struct CurrencyView: View {
     }
 
     func getData(currency: String) async {
+        isLoading = true
+        
         let fullUrlString = baseUrl + currency
 
         guard let url = URL(string: "\(fullUrlString).json") else {
             print("URl \(fullUrlString) not found")
+            isLoading = false
             return
         }
 
@@ -189,10 +255,11 @@ struct CurrencyView: View {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decodedResponse = try JSONDecoder().decode(
                 ExchangeRatesResponse.self, from: data)
-            result = decodedResponse.rates[currency] ?? [:]
+                result = decodedResponse.rates[currency] ?? [:]
+                isLoading = false
         } catch {
             print("Error decoding the data.\nError: \(error)")
-            return
-        }
+            isLoading = false
+            }
     }
 }

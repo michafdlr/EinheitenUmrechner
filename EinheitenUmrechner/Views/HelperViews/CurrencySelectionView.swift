@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct CurrencySelectionView: View {
+    @Environment(\.dismiss) var dismiss
+    
     @Binding var selectedCurrency: String
     @State private var searchText = ""
     @State private var searchIsPresented = false
+    @State private var selectionChanged = false
 
     var filteredCurrencies: [Currency] {
         if searchText.isEmpty {
@@ -77,7 +80,13 @@ struct CurrencySelectionView: View {
                             }
                             searchIsPresented = false
                             searchText = ""
+                            selectionChanged = true
                         }
+                    }
+                }
+                .toolbar {
+                    Button(selectionChanged ? "Accept" : "Cancel") {
+                        dismiss()
                     }
                 }
                 .searchable(

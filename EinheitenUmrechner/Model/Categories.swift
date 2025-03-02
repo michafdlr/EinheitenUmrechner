@@ -10,8 +10,7 @@ import SwiftUI
 import SwiftData
 
 @Model
-class Favorite: Identifiable {
-    var id = UUID()
+class Favorite {
     var unitSymbol: String
     var categoryName: CategoryName
     
@@ -47,7 +46,7 @@ extension CategoryName {
             .init(name: "Temperature"),
             .init(name: "Time"),
             .init(name: "Electric Current"),
-            .init(name: "Acceleration"),
+//            .init(name: "Acceleration"),
             .init(name: "Energy"),
             .init(name: "Electric Charge"),
             .init(name: "Frequency"),
@@ -116,9 +115,9 @@ let allCategories = [
     Category(
         view: { ElectricCurrentView() }, title: "Electric Current",
         imageName: "bolt.horizontal.circle.fill"),
-    Category(
-        view: { AccelerationView() }, title: "Acceleration",
-        imageName: "pedal.accelerator.fill"),
+//    Category(
+//        view: { AccelerationView() }, title: "Acceleration",
+//        imageName: "pedal.accelerator.fill"),
     Category(
         view: { EnergyView() }, title: "Energy",
         imageName: "fork.knife.circle.fill"),
