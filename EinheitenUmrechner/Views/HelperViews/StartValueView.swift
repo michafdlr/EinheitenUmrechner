@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartValueView<T: Dimension>: View {
     var textFieldName: String
-    var textInputWidth: CGFloat
+//    var textInputWidth: CGFloat
     
     @FocusState.Binding var valueIsFocused: Bool
     @Binding var inputValue: Double
@@ -22,19 +22,25 @@ struct StartValueView<T: Dimension>: View {
             HStack {
                 TextField(textFieldName, value: $inputValue, format: .number, prompt: Text("Your Value"))
                     .textFieldStyle(.roundedBorder)
-                    .frame(width: textInputWidth * 0.7)
+//                    .frame(width: textInputWidth * 0.7)
                     .keyboardType(.decimalPad)
                     .focused($valueIsFocused)
                 
                 Text(startUnit.symbol)
                     .bold()
             }
-            .frame(width: textInputWidth, alignment: .topLeading)
+            .containerRelativeFrame(.horizontal) { length, _ in
+                return 0.65 * length
+            }
+//            .frame(width: textInputWidth, alignment: .topLeading)
             
             Divider()
             
             NavigationLink("Units") {
                 UnitsView(selectedUnit: $startUnit, allUnits: allUnits)
+            }
+            .containerRelativeFrame(.horizontal) { length, _ in
+                return 0.25 * length
             }
         }
     }

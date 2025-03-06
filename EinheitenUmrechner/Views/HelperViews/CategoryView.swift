@@ -26,6 +26,7 @@ struct CategoryView<T: Dimension>: View {
     @State private var sheetIsShowing = false
     @State private var unitsSortedAscending = true
     @State private var sortedFavorites = [Favorite]()
+    @State private var searchIsActive = false
 
     var textInputWidth: CGFloat {
         UIScreen.main.bounds.width * 0.5
@@ -108,18 +109,22 @@ struct CategoryView<T: Dimension>: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section("Base Value") {
+            List {
+                Section {
                     StartValueView(
                         textFieldName: textFieldName,
-                        textInputWidth: textInputWidth,
+//                        textInputWidth: textInputWidth,
                         valueIsFocused: $valueIsFocused,
                         inputValue: $startValue,
                         startUnit: $startUnit,
                         allUnits: allUnits)
+                } header: {
+                    Text("Base Unit")
+                        .font(.title2)
+                        .bold()
                 }
 
-                Section("Favorite Units") {
+                Section {
                     if favorites.isEmpty {
                         Text(
                             "No favorite units selected. Tap plus or swipe in \"All Units\" section to add favorite units."
@@ -149,9 +154,23 @@ struct CategoryView<T: Dimension>: View {
                         }
                     }
                 }
+                header: {
+                    HStack{
+                        Text("Favorite Units")
+                            .font(.title2)
+                            .bold()
+                        Spacer()
+                        Button("Change Favorite Units", systemImage: "plus.circle.fill")
+                        {
+                            sheetIsShowing.toggle()
+                        }
+                        .labelStyle(.iconOnly)
+                    }
+                    
+                }
 
                 if allUnitsShowing {
-                    Section("All Units") {
+                    Section {
                         ForEach(filteredUnits.indices, id: \.self) { index in
                             TargetUnitView(
                                 targetValue: getTargetValue(
@@ -193,11 +212,26 @@ struct CategoryView<T: Dimension>: View {
                             sortFavorites()
                         }
                     }
+                    header: {
+                        HStack{
+                            Text("All Units")
+                                .font(.title2)
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Button("Search All Units", systemImage: "magnifyingglass.circle.fill") {
+                                searchIsActive = true
+                            }
+                            .labelStyle(.iconOnly)
+                        }
+                    }
                 }
             }
             .searchable(
                 text: $searchText,
-                placement: .navigationBarDrawer(displayMode: .always),
+                isPresented: $searchIsActive,
+                placement: .navigationBarDrawer(displayMode: .automatic),
                 prompt: "Search from all Units"
             )
             .toolbar {
@@ -207,19 +241,14 @@ struct CategoryView<T: Dimension>: View {
 
                 SortButtonView(sortedAscending: $unitsSortedAscending)
 
-                Button("Change Favorite Units", systemImage: "plus.circle.fill")
-                {
-                    sheetIsShowing.toggle()
-                }
-                .sheet(isPresented: $sheetIsShowing) {
-                    AddUnitSheetView(category: category, allUnits: allUnits)
-                }
-
                 if valueIsFocused {
                     Button("Done") {
                         valueIsFocused = false
                     }
                 }
+            }
+            .sheet(isPresented: $sheetIsShowing) {
+                AddUnitSheetView(category: category, allUnits: allUnits)
             }
             .navigationTitle("Convert \(title)")
         }

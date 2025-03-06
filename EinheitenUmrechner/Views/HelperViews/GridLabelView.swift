@@ -10,25 +10,23 @@ import SwiftUI
 struct GridLabelView: View {
     var title: LocalizedStringResource
     var imageName: String
-    
-    var frameWidth: CGFloat {
-        UIScreen.main.bounds.width / 3 * 0.8
-    }
-    var frameHeight: CGFloat {
-        min(UIScreen.main.bounds.height / 6, frameWidth)
-    }
-    
+    var width: CGFloat  // Dynamically set width
+
     var body: some View {
         VStack(spacing: 10) {
             Text(title)
+                .font(.caption)
                 .bold()
+                .multilineTextAlignment(.center)
+            
             Image(systemName: imageName)
                 .font(.title)
         }
-        .frame(width: frameWidth, height: frameHeight)
+        .padding()
+        .frame(width: max(100, width), height: max(100, width)) // Keep square ratio
         .foregroundStyle(.white)
         .background(.accent)
-        .clipShape(.rect(cornerRadius: 20.0))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(radius: 5)
     }
 }

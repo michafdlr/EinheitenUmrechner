@@ -5,86 +5,105 @@
 //  Created by Michael Fiedler on 01.03.25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct AddCurrencySheetView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.modelContext) var modelContext
-    
+
     @Query(sort: \FavoriteCurrency.rawName) var currencies: [FavoriteCurrency]
     @State private var searchText = ""
     @State private var changesMade = false
-    
+    @State private var searchIsActive = false
+
     var filteredCurrencies: [FavoriteCurrency] {
         if searchText.isEmpty {
             return currencies
         }
         return currencies.filter {
-            $0.name.rawValue.localizedStandardContains(searchText) || String(describing: $0.name).localizedStandardContains(searchText)
+            $0.name.rawValue.localizedStandardContains(searchText)
+                || String(describing: $0.name).localizedStandardContains(
+                    searchText)
         }
     }
-    
-    
-//    func filterFavorites(by name: String) -> [FavoriteCurrency]{
-//        return currencies.filter({$0.name.rawValue == name})
-//    }
-    
+
+    //    func filterFavorites(by name: String) -> [FavoriteCurrency]{
+    //        return currencies.filter({$0.name.rawValue == name})
+    //    }
+
     var body: some View {
         NavigationStack {
             List {
-                Grid(
-                    alignment: .leading, horizontalSpacing: 10,
-                    verticalSpacing: 15
-                ) {
-
-                    GridRow {
-                        Text("Currency")
-
-                        Text("Symbol")
-                        
-                        Text("Selected")
-                    }
-                    .font(.headline)
-                    .bold()
-
-                    ForEach(filteredCurrencies) { currency in
-                        Divider()
-                        GridRow {
-                            Text(currency.name.rawValue)
-
-                            Text(String(describing: currency.name))
-                            
-                            if currency.favorited {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                            } else {
-                                Image(systemName: "checkmark.circle")
-                            }
+                if searchIsActive && changesMade {
+                    Section{
+                        Button {
+                            searchIsActive = false
+                            searchText = ""
+                        } label: {
+                            Text("Accept")
+                                .bold()
                         }
-                        .onTapGesture {
-                            currency.favorited.toggle()
-                            changesMade = true
-                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .buttonStyle(.borderedProminent)
                     }
-                    
                 }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search Currency")
-                .toolbar {
-                    Button(changesMade ? "Save" : "Cancel") {
-                        dismiss()
+                
+                HStack {
+                    Text("Currency")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Spacer()
+                    
+                    Text("Symbol")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                    Spacer()
+                    
+                    Text("Selected")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .font(.headline)
+                .bold()
+
+                ForEach(filteredCurrencies) { currency in
+                    HStack {
+                        Text(currency.name.rawValue)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Spacer()
+
+                        Text(String(describing: currency.name))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+
+                        Spacer()
+
+                        Image(
+                            systemName: currency.favorited
+                                ? "checkmark.circle.fill" : "checkmark.circle"
+                        )
+                        .foregroundStyle(currency.favorited ? .accent : .gray)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        currency.favorited.toggle()
+                        changesMade = true
                     }
                 }
             }
             .navigationTitle("Select Currency")
             .navigationBarTitleDisplayMode(.inline)
-        }
-        .onAppear {
-//            sortedUnits = allUnits
-//            sortUnits()
-        }
-        .onChange(of: searchText) {
-//            sortUnits()
+            .searchable(
+                text: $searchText,
+                isPresented: $searchIsActive,
+                placement: .navigationBarDrawer(displayMode: .automatic),
+                prompt: "Search Currency"
+            )
+            .toolbar {
+                Button(changesMade ? "Save" : "Cancel") {
+                    dismiss()
+                }
+            }
         }
     }
 }

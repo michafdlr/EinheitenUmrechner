@@ -14,21 +14,15 @@ struct SortButtonView: View {
     var body: some View {
         Button {
             sortedAscending.toggle()
-            angle =
-            sortedAscending ? angle - 180 : angle + 180
+            angle = sortedAscending ? angle - 180 : angle + 180
         } label: {
             Image(
-                systemName: "arrowshape.up.circle.fill"
+                systemName: "arrow.up.arrow.down.circle.fill"
             )
             .rotationEffect(Angle(degrees: angle))
             .animation(
-                .bouncy(duration: 0.5, extraBounce: 0.3), value: angle
+                .bouncy(duration: 0.5, extraBounce: 0.1), value: angle
             )
-//            .font(.title)
         }
     }
 }
-
-//#Preview {
-//    SortButtonView()
-//}

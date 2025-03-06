@@ -16,6 +16,7 @@ struct AddUnitSheetView<T: Dimension>: View {
     @State private var searchText = ""
     @State private var changesMade = false
     @State private var sortedUnits: [T] = []
+    @State private var searchIsActive = false
     
     let allUnits: [T]
     
@@ -24,7 +25,7 @@ struct AddUnitSheetView<T: Dimension>: View {
             return sortedUnits
         }
         return sortedUnits.filter {
-            measureFormatter.string(from: $0).localizedCaseInsensitiveContains(searchText) || $0.symbol.localizedCaseInsensitiveContains(searchText)
+            measureFormatter.string(from: $0).localizedStandardContains(searchText) || $0.symbol.localizedStandardContains(searchText)
         }
     }
     
@@ -47,61 +48,67 @@ struct AddUnitSheetView<T: Dimension>: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                Grid(
-                    alignment: .leading, horizontalSpacing: 10,
-                    verticalSpacing: 15
-                ) {
-
-                    GridRow {
-                        Text("Unit")
-
-                        Text("Symbol")
-                        
-                        Text("Selected")
-                    }
-                    .font(.headline)
-                    .bold()
-
-                    ForEach(filteredUnits, id: \.self) { unit in
-                        Divider()
-                        GridRow {
-                            Text(measureFormatter.string(from: unit))
-
-                            Text(unit.symbol)
-                            
-                            if category.favorites.contains(where: {$0.unitSymbol == unit.symbol}) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                            } else {
-                                Image(systemName: "checkmark.circle")
-                            }
-                        }
-                        .onTapGesture {
-                            let filteredFavorites = filterFavorites(by: unit)
-                            if filteredFavorites.isEmpty {
-                                let favorite = Favorite(name: unit, categoryName: category)
-                                addFavorite(favorite)
-                            } else {
-                                filteredFavorites.forEach { favorite in
-                                    modelContext.delete(favorite)
-                                }
-                                category.favorites.removeAll {$0.unitSymbol == unit.symbol}
-                            }
-                            changesMade = true
-                        }
-                    }
-                    
+            if searchIsActive && changesMade {
+                Button("Accept") {
+                    searchIsActive = false
+                    searchText = ""
                 }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Unit")
-                .toolbar {
-                    Button(changesMade ? "Save" : "Cancel") {
-                        dismiss()
+                .frame(maxWidth: .infinity, alignment: .center)
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.roundedRectangle(radius: 10))
+            }
+            
+            List {
+                HStack{
+                    Text("Unit")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Text("Symbol")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                    Text("Selected")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .font(.headline)
+                .bold()
+                
+                ForEach(filteredUnits, id: \.self) { unit in
+                    HStack {
+                        Text(measureFormatter.string(from: unit))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Spacer()
+                        
+                        Text(unit.symbol)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        
+                        Image(systemName: category.favorites.contains(where: {$0.unitSymbol == unit.symbol}) ? "checkmark.circle.fill" : "checkmark.circle")
+                            .foregroundStyle(category.favorites.contains(where: {$0.unitSymbol == unit.symbol}) ? .accent : .gray)
+                            .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        let filteredFavorites = filterFavorites(by: unit)
+                        if filteredFavorites.isEmpty {
+                            let favorite = Favorite(name: unit, categoryName: category)
+                            addFavorite(favorite)
+                        } else {
+                            filteredFavorites.forEach { favorite in
+                                modelContext.delete(favorite)
+                            }
+                            category.favorites.removeAll {$0.unitSymbol == unit.symbol}
+                        }
+                        changesMade = true
+                    }
+                }
+                
+            }
+            .searchable(text: $searchText, isPresented: $searchIsActive, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search Unit")
+            .toolbar {
+                Button(changesMade ? "Save" : "Cancel") {
+                    dismiss()
                 }
             }
-            .navigationTitle("Select Unit")
-            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             sortedUnits = allUnits
@@ -110,6 +117,8 @@ struct AddUnitSheetView<T: Dimension>: View {
         .onChange(of: searchText) {
             sortUnits()
         }
+        .navigationTitle("Select Unit")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

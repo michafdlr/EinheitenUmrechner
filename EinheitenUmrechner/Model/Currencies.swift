@@ -359,11 +359,13 @@ enum Currency: String, CaseIterable, Codable {
 class FavoriteCurrency {
     var name: Currency
     var favorited: Bool
+    var startCurrency: Bool
     var rawName: String
     
-    init(name: Currency, favorited: Bool = false) {
+    init(name: Currency, favorited: Bool = false, startCurrency: Bool = false) {
         self.name = name
         self.favorited = favorited
+        self.startCurrency = startCurrency
         self.rawName = name.rawValue
     }
 }
@@ -372,7 +374,12 @@ extension FavoriteCurrency {
     static var allCurrencies: [FavoriteCurrency] {
         var allCurr = [FavoriteCurrency]()
         Currency.allCases.forEach { currency in
-            let fav = FavoriteCurrency.init(name: currency)
+            var fav: FavoriteCurrency
+            if currency.rawValue == "Euro" {
+                fav = FavoriteCurrency.init(name: currency, startCurrency: true)
+            } else {
+                fav = FavoriteCurrency.init(name: currency)
+            }
             allCurr.append(fav)
         }
         return allCurr

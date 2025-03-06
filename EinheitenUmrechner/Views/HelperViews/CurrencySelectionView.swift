@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CurrencySelectionView: View {
     @Environment(\.dismiss) var dismiss
     
-    @Binding var selectedCurrency: String
+    @Query var currencies: [FavoriteCurrency]
+    @Bindable var selectedCurrency: FavoriteCurrency
     @State private var searchText = ""
     @State private var searchIsPresented = false
     @State private var selectionChanged = false
@@ -31,7 +33,7 @@ struct CurrencySelectionView: View {
             Section("Selected Currency") {
                 HStack {
                     Text(
-                        "\(getFullCurrencyName(from: selectedCurrency)) (\(selectedCurrency))"
+                        "\(selectedCurrency.rawName) (\(String(describing: selectedCurrency.name)))"
                     )
                     .bold()
 
@@ -61,9 +63,9 @@ struct CurrencySelectionView: View {
                                 currency.rawValue == "1inch"
                                     ? "1inch" : String(describing: currency))
 
-                            if selectedCurrency == String(describing: currency)
-                                || selectedCurrency == "1"
-                                    + String(describing: currency)
+                            if selectedCurrency.name == currency
+//                                || selectedCurrency == "1"
+//                                    + String(describing: currency)
                             {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundStyle(.green)
@@ -73,11 +75,16 @@ struct CurrencySelectionView: View {
                             }
                         }
                         .onTapGesture {
-                            if currency.rawValue == "1inch" {
-                                selectedCurrency = "1inch"
-                            } else {
-                                selectedCurrency = String(describing: currency)
+                            if selectedCurrency.name != currency {
+                                selectedCurrency.startCurrency = false
+                                let newSelection = currencies.first {$0.name == currency}!
+                                newSelection.startCurrency = true
                             }
+//                            if currency.rawValue == "1inch" {
+//                                selectedCurrency = "1inch"
+//                            } else {
+//                                selectedCurrency = String(describing: currency)
+//                            }
                             searchIsPresented = false
                             searchText = ""
                             selectionChanged = true
@@ -92,14 +99,10 @@ struct CurrencySelectionView: View {
                 .searchable(
                     text: $searchText,
                     isPresented: $searchIsPresented,
-                    placement: .navigationBarDrawer(displayMode: .always),
+                    placement: .navigationBarDrawer(displayMode: .automatic),
                     prompt: Text("Search Currency"))
             }
             .navigationTitle("Select Base Currency")
         }
     }
 }
-
-//#Preview {
-//    CurrencySelectionView()
-//}

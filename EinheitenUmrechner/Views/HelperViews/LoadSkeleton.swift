@@ -30,7 +30,7 @@ extension View {
 }
 
 struct LoadSkeletonView: View {
-    let skeletonColor = Color(.init(gray: 0.7, alpha: 1))
+    let skeletonColor = Color(.init(gray: 0.8, alpha: 1))
     
     var body: some View {
         HStack {

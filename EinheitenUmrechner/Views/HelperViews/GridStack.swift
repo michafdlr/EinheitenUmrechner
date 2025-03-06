@@ -9,39 +9,48 @@ import SwiftUI
 
 struct GridStack: View {
     var categories: [Category]
+    
     var rows: Int {
-        if categories.count < 3 {
-            return 1
-        }
-        if categories.count.isMultiple(of: 3) {
-            return categories.count / 3
-        }
-        return Int(categories.count / 3) + 1
+        (categories.count + 2) / 3 // Ensures rounding up correctly
     }
 
     var body: some View {
-        ScrollView {
-            Grid(
-                alignment: .bottom, horizontalSpacing: 20,
-                verticalSpacing: 20
-            ) {
-                Spacer()
-                ForEach(0..<rows, id: \.self) { i in
-                    GridRow {
-                        ForEach(0..<3, id: \.self) { j in
-                            if i * 3 + j < categories.count {
-                                NavigationLink {
-                                    categories[i*3 + j].view()
-                                } label: {
-                                    GridLabelView(
-                                        title: categories[i*3 + j].title, imageName: categories[i*3 + j].imageName)
+        GeometryReader { geometry in
+            let totalWidth = geometry.size.width
+            let spacing: CGFloat = 20
+            let itemWidth = (totalWidth - 4 * spacing) / 3  // 3 items per row with spacing
+            
+            ScrollView {
+                VStack {
+                    Grid(
+                        alignment: .bottom,
+                        horizontalSpacing: spacing,
+                        verticalSpacing: spacing
+                    ) {
+                        ForEach(0..<rows, id: \.self) { i in
+                            GridRow {
+                                ForEach(0..<3, id: \.self) { j in
+                                    if i * 3 + j < categories.count {
+                                        NavigationLink {
+                                            categories[i*3 + j].view()
+                                        } label: {
+                                            GridLabelView(
+                                                title: categories[i*3 + j].title,
+                                                imageName: categories[i*3 + j].imageName,
+                                                width: itemWidth
+                                            )
+                                        }
+                                    } else {
+                                        Spacer() // Keeps columns aligned if row has fewer than 3 items
+                                    }
                                 }
                             }
                         }
                     }
+                    .padding(.horizontal, spacing)
                 }
+                .frame(maxWidth: .infinity)
             }
-            .padding(.horizontal, 20)
         }
     }
 }

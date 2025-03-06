@@ -117,7 +117,11 @@
         }
       }
     },
+    "Base Unit" : {
+
+    },
     "Base Value" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -136,6 +140,9 @@
           }
         }
       }
+    },
+    "Change Favorite Currencies" : {
+
     },
     "Change Favorite Units" : {
       "localizations" : {
@@ -427,6 +434,12 @@
         }
       }
     },
+    "Search All Currencies" : {
+
+    },
+    "Search All Units" : {
+
+    },
     "Search Category" : {
       "localizations" : {
         "de" : {
@@ -482,7 +495,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wähle Grund Währung"
+            "value" : "Wähle Grundwährung"
           }
         }
       }
