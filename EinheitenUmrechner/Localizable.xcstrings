@@ -118,15 +118,11 @@
       }
     },
     "Base Unit" : {
-
-    },
-    "Base Value" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grundwert"
+            "value" : "Grundeinheit"
           }
         }
       }
@@ -142,7 +138,14 @@
       }
     },
     "Change Favorite Currencies" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ändere Favoriten"
+          }
+        }
+      }
     },
     "Change Favorite Units" : {
       "localizations" : {
@@ -435,10 +438,24 @@
       }
     },
     "Search All Currencies" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durchsuche alle Währungen"
+          }
+        }
+      }
     },
     "Search All Units" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durchsuche alle Einheiten"
+          }
+        }
+      }
     },
     "Search Category" : {
       "localizations" : {

@@ -75,7 +75,7 @@ struct CurrencyView: View {
                 NavigationStack {
                     Form {
                         Section {
-                            HStack {
+//                            HStack {
                                 HStack {
                                     TextField(
                                         "Currency Amount", value: $amount,
@@ -85,37 +85,55 @@ struct CurrencyView: View {
                                     .keyboardType(.decimalPad)
                                     .focused($valueIsFocused)
                                     
+                                    Spacer()
                                     
                                     Text(selectedCurrency.first!.rawName.localizedCapitalized)
                                         .bold()
                                 }
-                                .containerRelativeFrame(.horizontal) { length, _ in
-                                    return 0.65 * length
-                                }
                                 
-                                Divider()
+//                                Divider()
+//                                
+//                                NavigationLink("Currency") {
+//                                    CurrencySelectionView(
+//                                        selectedCurrency: selectedCurrency.first!
+//                                    )
+//                                    .onChange(of: selectedCurrency.first!.rawName) {
+//                                        Task {
+//                                            let key = String(describing: selectedCurrency.first!.name)
+//                                            await getData(
+//                                                currency: String(describing: key == "inch" ? "1inch" : key))
+//                                        }
+//                                    }
+//                                }
+//                                .containerRelativeFrame(.horizontal) { length, _ in
+//                                    return 0.25 * length
+//                                }
+//                            }
+                        }
+                        header: {
+                            HStack{
+                                Text("Base Currency")
+                                    .font(.title2)
+                                    .bold()
                                 
-                                NavigationLink("Currency") {
+                                Spacer()
+                                
+                                
+                                NavigationLink {
                                     CurrencySelectionView(
                                         selectedCurrency: selectedCurrency.first!
                                     )
-                                    .onChange(of: selectedCurrency.first!.rawName) {
-                                        Task {
-                                            let key = String(describing: selectedCurrency.first!.name)
-                                            await getData(
-                                                currency: String(describing: key == "inch" ? "1inch" : key))
-                                        }
+                                } label: {
+                                    Image(systemName: "gearshape.circle.fill")
+                                }
+                                .onChange(of: selectedCurrency.first!.rawName) {
+                                    Task {
+                                        let key = String(describing: selectedCurrency.first!.name)
+                                        await getData(
+                                            currency: String(describing: key == "inch" ? "1inch" : key))
                                     }
                                 }
-                                .containerRelativeFrame(.horizontal) { length, _ in
-                                    return 0.25 * length
-                                }
                             }
-                        }
-                        header: {
-                            Text("Base Currency")
-                                .font(.title2)
-                                .bold()
                         }
                         
                         Section {
@@ -282,7 +300,7 @@ struct CurrencyView: View {
                     }
                     .tint(.accentColor)
                     .containerRelativeFrame([.horizontal, .vertical], { length, axis in
-                        return 0.75 * length
+                        return length
                     })
                     .background(.ultraThinMaterial)
                     .clipShape(.rect(cornerRadius: 10))
