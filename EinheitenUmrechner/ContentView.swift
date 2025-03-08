@@ -5,17 +5,16 @@
 //  Created by Michael Fiedler on 09.02.25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.modelContext) var modelContext
-    
     @EnvironmentObject var networkMonitor: NetworkMonitor
     @State private var searchText = ""
     @State private var categoriesSortedAscending = true
     @State private var angle = 0.0
-    
+    @State private var searchIsActive = false
+
     @Query var categoryNames: [CategoryName]
 
     var sortedCategories: [Category] {
@@ -41,21 +40,21 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                Spacer()
-                GridStack(categories: filteredCategories)
-                Spacer()
-                Spacer()
-                Spacer()
-            }
-            .navigationTitle("Convert Units")
-            .toolbar {
-                SortButtonView(sortedAscending: $categoriesSortedAscending)
-            }
-            .animation(.easeIn(duration: 0.5), value: categoriesSortedAscending)
+            GridStack(categories: filteredCategories)
+                .navigationTitle("Convert Units")
+                .toolbar {
+                    SortButtonView(sortedAscending: $categoriesSortedAscending)
+                    
+                    Button("Search Category", systemImage: "magnifyingglass.circle.fill") {
+                        searchIsActive = true
+                    }
+                }
+                .animation(
+                    .easeIn(duration: 0.5), value: categoriesSortedAscending)
         }
         .searchable(
             text: $searchText,
+            isPresented: $searchIsActive,
             placement: .navigationBarDrawer(displayMode: .automatic),
             prompt: "Search Category")
     }
@@ -65,5 +64,4 @@ struct ContentView: View {
     @Previewable @StateObject var networkMonitor = NetworkMonitor()
     ContentView()
         .environmentObject(networkMonitor)
-//        .modelContainer(for: [CategoryName.self, Favorite.self], inMemory: true)
 }

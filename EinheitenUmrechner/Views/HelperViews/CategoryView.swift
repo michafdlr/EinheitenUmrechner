@@ -119,9 +119,20 @@ struct CategoryView<T: Dimension>: View {
                         startUnit: $startUnit,
                         allUnits: allUnits)
                 } header: {
-                    Text("Base Unit")
-                        .font(.title2)
-                        .bold()
+                    HStack{
+                        Text("Base Unit")
+                            .font(.title2)
+                            .bold()
+                        
+                        Spacer()
+                        
+                        NavigationLink {
+                            UnitsView(selectedUnit: $startUnit, allUnits: allUnits)
+                        } label: {
+                            Image(systemName: "gearshape.circle.fill")
+                        }
+
+                    }
                 }
 
                 Section {

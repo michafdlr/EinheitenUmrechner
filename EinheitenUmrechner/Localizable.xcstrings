@@ -112,7 +112,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Start Währung"
+            "value" : "Startwährung"
           }
         }
       }
@@ -277,12 +277,15 @@
         }
       }
     },
+    "Error" : {
+
+    },
     "Error fetching Data" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fehler Bei Datenabruf"
+            "value" : "Fehler bei Datenabruf"
           }
         }
       }
@@ -377,6 +380,9 @@
         }
       }
     },
+    "No currency selected" : {
+
+    },
     "No favorite units selected. Tap plus or swipe in \"All Units\" section to add favorite units." : {
       "localizations" : {
         "de" : {
@@ -386,6 +392,9 @@
           }
         }
       }
+    },
+    "OK" : {
+
     },
     "Please make sure you are connected to the internet!" : {
       "localizations" : {
@@ -613,16 +622,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einheit"
-          }
-        }
-      }
-    },
-    "Units" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einheiten"
           }
         }
       }

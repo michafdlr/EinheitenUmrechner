@@ -18,7 +18,7 @@ struct StartValueView<T: Dimension>: View {
     let allUnits: [T]
     
     var body: some View {
-        HStack {
+//        HStack {
             HStack {
                 TextField(textFieldName, value: $inputValue, format: .number, prompt: Text("Your Value"))
                     .textFieldStyle(.roundedBorder)
@@ -29,19 +29,19 @@ struct StartValueView<T: Dimension>: View {
                 Text(startUnit.symbol)
                     .bold()
             }
-            .containerRelativeFrame(.horizontal) { length, _ in
-                return 0.65 * length
-            }
+//            .containerRelativeFrame(.horizontal) { length, _ in
+//                return 0.65 * length
+//            }
 //            .frame(width: textInputWidth, alignment: .topLeading)
             
-            Divider()
-            
-            NavigationLink("Units") {
-                UnitsView(selectedUnit: $startUnit, allUnits: allUnits)
-            }
-            .containerRelativeFrame(.horizontal) { length, _ in
-                return 0.25 * length
-            }
-        }
+//            Divider()
+//            
+//            NavigationLink("Units") {
+//                UnitsView(selectedUnit: $startUnit, allUnits: allUnits)
+//            }
+//            .containerRelativeFrame(.horizontal) { length, _ in
+//                return 0.25 * length
+//            }
+        
     }
 }

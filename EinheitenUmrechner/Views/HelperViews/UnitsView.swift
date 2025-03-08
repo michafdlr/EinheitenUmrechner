@@ -44,14 +44,10 @@ struct UnitsView<UnitType: Dimension>: View {
                             Text(measureFormatter.string(from: unit))
 
                             Text(unit.symbol)
+         
+                            Image(systemName: selectedUnit == unit ? "checkmark.circle.fill" : "checkmark.circle")
+                                .foregroundStyle(selectedUnit == unit ? .accent : .gray)
                             
-                            if selectedUnit == unit {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                            } else {
-                                Image(systemName: "checkmark.circle")
-                                    .foregroundStyle(.gray)
-                            }
                         }
                         .onTapGesture {
                             selectedUnit = unit
