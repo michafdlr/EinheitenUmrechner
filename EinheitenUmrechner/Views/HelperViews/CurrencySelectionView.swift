@@ -29,79 +29,95 @@ struct CurrencySelectionView: View {
     }
 
     var body: some View {
-        Form {
-            Section("Selected Currency") {
-                HStack {
-                    Text(
-                        "\(selectedCurrency.rawName) (\(String(describing: selectedCurrency.name)))"
-                    )
-                    .bold()
-
-                    Spacer()
-
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
+        NavigationStack {
+            List {
+                Section("Selected Currency") {
+                    HStack {
+                        Text(
+                            "\(selectedCurrency.rawName) (\(String(describing: selectedCurrency.name)))"
+                        )
+                        .bold()
+                        
+                        Spacer()
+                        
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.accent)
+                    }
                 }
-            }
-
-            Section("Available Currencies") {
-                Grid(alignment: .leading, horizontalSpacing: 15, verticalSpacing: 15) {
-                    GridRow {
+                
+                Section {
+                    HStack {
                         Text("Currency")
-
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Spacer()
+                        
                         Text("Code")
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        
+                        Spacer()
+                        
+                        Text("Selected")
+                            .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .font(.headline)
                     .bold()
-
+                    
                     ForEach(filteredCurrencies, id: \.self) { currency in
-                        Divider()
-                        GridRow {
+                        HStack {
                             Text(currency.rawValue)
-
-                            Text(
-                                currency.rawValue == "1inch"
-                                    ? "1inch" : String(describing: currency))
-
-                            if selectedCurrency.name == currency
-//                                || selectedCurrency == "1"
-//                                    + String(describing: currency)
-                            {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                            } else {
-                                Image(systemName: "checkmark.circle")
-                                    .foregroundStyle(.gray)
-                            }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Spacer()
+                            
+                            Text(currency.rawValue == "1inch" ? "1inch" : String(describing: currency))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            
+                            Spacer()
+                            
+                            
+                            Image(systemName: selectedCurrency.name == currency ? "checkmark.circle.fill" : "checkmark.circle")
+                                .foregroundStyle(selectedCurrency.name == currency ? .accent : .gray)
+                                .frame(maxWidth: .infinity, alignment: .center)
                         }
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             if selectedCurrency.name != currency {
                                 selectedCurrency.startCurrency = false
                                 let newSelection = currencies.first {$0.name == currency}!
                                 newSelection.startCurrency = true
                             }
-//                            if currency.rawValue == "1inch" {
-//                                selectedCurrency = "1inch"
-//                            } else {
-//                                selectedCurrency = String(describing: currency)
-//                            }
                             searchIsPresented = false
                             searchText = ""
                             selectionChanged = true
                         }
                     }
                 }
-                .toolbar {
-                    Button(selectionChanged ? "Accept" : "Cancel") {
-                        dismiss()
+                header: {
+                    HStack {
+                        Text("Available Currencies")
+                            .font(.title2)
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Button("Search Currency", systemImage: "magnifyingglass.circle.fill") {
+                            searchIsPresented = true
+                        }
+                        .labelStyle(.iconOnly)
                     }
                 }
-                .searchable(
-                    text: $searchText,
-                    isPresented: $searchIsPresented,
-                    placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: Text("Search Currency"))
             }
+            .toolbar {
+                Button(selectionChanged ? "Accept" : "Cancel") {
+                    dismiss()
+                }
+            }
+            .searchable(
+                text: $searchText,
+                isPresented: $searchIsPresented,
+                placement: .navigationBarDrawer(displayMode: .automatic),
+                prompt: Text("Search Currency"))
             .navigationTitle("Select Base Currency")
         }
     }

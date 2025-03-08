@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct EinheitenUmrechnerApp: App {
     @AppStorage("isFirstTimeLaunch") private var isFirstTimeLaunch = true
-    @StateObject var networkMonitor = NetworkMonitor()
+//    @StateObject var networkMonitor = NetworkMonitor()
     
     private var modelContainer: ModelContainer {
         if let container = CategoriesContainer.createCategories(shouldCreateDefault: &isFirstTimeLaunch) {
@@ -27,7 +27,7 @@ struct EinheitenUmrechnerApp: App {
         WindowGroup {
             ContentView()
         }
-        .environmentObject(networkMonitor)
+//        .environmentObject(networkMonitor)
         .modelContainer(modelContainer)
     }
     

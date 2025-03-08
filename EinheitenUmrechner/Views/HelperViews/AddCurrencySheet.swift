@@ -48,47 +48,54 @@ struct AddCurrencySheetView: View {
                     }
                 }
                 
-                HStack {
-                    Text("Currency")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Spacer()
-                    
-                    Text("Symbol")
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                    
-                    Spacer()
-                    
-                    Text("Selected")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-                .font(.headline)
-                .bold()
-
-                ForEach(filteredCurrencies) { currency in
+                Section {
                     HStack {
-                        Text(currency.name.rawValue)
+                        Text("Currency")
                             .frame(maxWidth: .infinity, alignment: .leading)
-
+                        
                         Spacer()
-
-                        Text(String(describing: currency.name))
+                        
+                        Text("Symbol")
                             .frame(maxWidth: .infinity, alignment: .trailing)
-
+                        
                         Spacer()
-
-                        Image(
-                            systemName: currency.favorited
+                        
+                        Text("Selected")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .font(.headline)
+                    .bold()
+                    
+                    ForEach(filteredCurrencies) { currency in
+                        HStack {
+                            Text(currency.name.rawValue)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Spacer()
+                            
+                            Text(String(describing: currency.name))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            
+                            Spacer()
+                            
+                            Image(
+                                systemName: currency.favorited
                                 ? "checkmark.circle.fill" : "checkmark.circle"
-                        )
-                        .foregroundStyle(currency.favorited ? .accent : .gray)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                            )
+                            .foregroundStyle(currency.favorited ? .accent : .gray)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            currency.favorited.toggle()
+                            changesMade = true
+                        }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        currency.favorited.toggle()
-                        changesMade = true
-                    }
+                }
+                header: {
+                    Text("All Currencies")
+                        .font(.title2)
+                        .bold()
                 }
             }
             .navigationTitle("Select Currency")
@@ -103,6 +110,11 @@ struct AddCurrencySheetView: View {
                 Button(changesMade ? "Save" : "Cancel") {
                     dismiss()
                 }
+                
+                Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
+                    searchIsActive = true
+                }
+                .labelStyle(.iconOnly)
             }
         }
     }

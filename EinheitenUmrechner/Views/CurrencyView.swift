@@ -9,7 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct CurrencyView: View {
-    @EnvironmentObject var networkMonitor: NetworkMonitor
+    //    @EnvironmentObject var networkMonitor: NetworkMonitor
+    @ObservedObject private var networkMonitor = NetworkMonitor()
 
     let baseUrl =
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/"
@@ -24,7 +25,7 @@ struct CurrencyView: View {
     @State private var sheetIsShowing = false
     @State private var isLoading = true
     @State private var searchIsActive = false
-    
+
     // Error handling
     @State private var errorMessage: String?
     @State private var showErrorAlert = false
@@ -81,52 +82,43 @@ struct CurrencyView: View {
                     Form {
                         Section {
                             HStack {
-                                TextField(
-                                    "Currency Amount", value: $amount,
-                                    format: .number, prompt: Text("Your Value")
-                                )
-                                .textFieldStyle(.roundedBorder)
-                                .keyboardType(.decimalPad)
-                                .focused($valueIsFocused)
-
-                                Spacer()
+                                GeometryReader { proxy in
+                                    TextField(
+                                        "Currency Amount", value: $amount,
+                                        format: .number,
+                                        prompt: Text("Your Value")
+                                    )
+                                    .textFieldStyle(.roundedBorder)
+                                    .keyboardType(.decimalPad)
+                                    .focused($valueIsFocused)
+                                    .frame(width: proxy.size.width * 0.7)
+                                }
 
                                 if let selected = selectedCurrency.first {
                                     Text(selected.rawName.localizedCapitalized)
                                         .bold()
-                                } else {
-                                    Text("No currency selected")
                                 }
                             }
-                        }
-                        header: {
+                        } header: {
                             HStack {
                                 Text("Base Currency")
                                     .font(.title2)
                                     .bold()
-                                
+
                                 Spacer()
-                                
+
                                 if selectedCurrency.first != nil {
                                     NavigationLink {
-                                        CurrencySelectionView(selectedCurrency: selectedCurrency.first!)
+                                        CurrencySelectionView(
+                                            selectedCurrency: selectedCurrency
+                                                .first!)
                                     } label: {
-                                        Image(systemName: "gearshape.circle.fill")
+                                        Image(
+                                            systemName: "gearshape.circle.fill")
                                     }
                                 } else {
                                     Text("No currency selected")
                                         .foregroundStyle(.gray)
-                                }
-                            }
-                            .onAppear {
-                                if let selected = selectedCurrency.first {
-                                    Task {
-                                        let key = String(describing: selected.name) == "inch" ? "1inch" : String(describing: selected.name)
-                                        await getData(currency: key)
-                                    }
-                                } else {
-                                    errorMessage = "Error Fetching Data. Please try again later."
-                                    showErrorAlert = true
                                 }
                             }
                         }
@@ -282,7 +274,9 @@ struct CurrencyView: View {
                     }
                     .task {
                         if let selected = selectedCurrency.first {
-                            let key = String(describing: selected.name) == "inch" ? "1inch" : String(describing: selected.name)
+                            let key =
+                                String(describing: selected.name) == "inch"
+                                ? "1inch" : String(describing: selected.name)
                             await getData(currency: key)
                             sortResults()
                         } else {
@@ -298,7 +292,7 @@ struct CurrencyView: View {
 
                             SortButtonView(sortedAscending: $sortedAscending)
                         }
-                        
+
                         ToolbarItemGroup(placement: .keyboard) {
                             if valueIsFocused {
                                 Button("Done") {
@@ -315,7 +309,7 @@ struct CurrencyView: View {
                         prompt: "Search Target Currency"
                     )
                     .alert("Error", isPresented: $showErrorAlert) {
-                        Button("OK", role: .cancel) { }
+                        Button("OK", role: .cancel) {}
                     } message: {
                         Text(errorMessage ?? "An unknown error occurred.")
                     }
@@ -333,9 +327,13 @@ struct CurrencyView: View {
                     .containerRelativeFrame(
                         [.horizontal, .vertical],
                         { length, axis in
+                            if axis == .vertical {
+                                return 1.2 * length
+                            }
                             return length
                         }
                     )
+                    .ignoresSafeArea()
                     .background(.ultraThinMaterial)
                     .clipShape(.rect(cornerRadius: 10))
                 }
@@ -344,10 +342,18 @@ struct CurrencyView: View {
             NoInternetView()
         }
     }
-    
+
     func getData(currency: String) async {
+        guard networkMonitor.isConnected else {
+            await MainActor.run {
+                errorMessage = "No internet connection. Please try again later."
+                showErrorAlert = true
+            }
+            return
+        }
+
         isLoading = true
-        result = [:] // Reset results to avoid displaying stale data
+        result = [:]  // Reset results to avoid displaying stale data
 
         let fullUrlString = baseUrl + currency
         guard let url = URL(string: "\(fullUrlString).json") else {
@@ -381,7 +387,8 @@ struct CurrencyView: View {
             }
 
             do {
-                let decodedResponse = try JSONDecoder().decode(ExchangeRatesResponse.self, from: data)
+                let decodedResponse = try JSONDecoder().decode(
+                    ExchangeRatesResponse.self, from: data)
                 result = decodedResponse.rates[currency] ?? [:]
             } catch {
                 await MainActor.run {
@@ -407,27 +414,27 @@ struct CurrencyView: View {
         isLoading = false
     }
 
-//    func getData(currency: String) async {
-//        isLoading = true
-//
-//        let fullUrlString = baseUrl + currency
-//
-//        guard let url = URL(string: "\(fullUrlString).json") else {
-//            print("URl \(fullUrlString) not found")
-//            isLoading = false
-//            return
-//        }
-//
-//        do {
-//            let (data, response) = try await URLSession.shared.data(from: url)
-//            let decodedResponse = try JSONDecoder().decode(
-//                ExchangeRatesResponse.self, from: data)
-//            result = decodedResponse.rates[currency] ?? [:]
-//            isLoading = false
-//        } catch {
-//            print("Error decoding the data.\nError: \(error)")
-//            isLoading = false
-//            return
-//        }
-//    }
+    //    func getData(currency: String) async {
+    //        isLoading = true
+    //
+    //        let fullUrlString = baseUrl + currency
+    //
+    //        guard let url = URL(string: "\(fullUrlString).json") else {
+    //            print("URl \(fullUrlString) not found")
+    //            isLoading = false
+    //            return
+    //        }
+    //
+    //        do {
+    //            let (data, response) = try await URLSession.shared.data(from: url)
+    //            let decodedResponse = try JSONDecoder().decode(
+    //                ExchangeRatesResponse.self, from: data)
+    //            result = decodedResponse.rates[currency] ?? [:]
+    //            isLoading = false
+    //        } catch {
+    //            print("Error decoding the data.\nError: \(error)")
+    //            isLoading = false
+    //            return
+    //        }
+    //    }
 }

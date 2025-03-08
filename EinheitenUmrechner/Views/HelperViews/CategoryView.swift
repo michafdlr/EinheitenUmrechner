@@ -246,15 +246,19 @@ struct CategoryView<T: Dimension>: View {
                 prompt: "Search from all Units"
             )
             .toolbar {
-                Button(allUnitsShowing ? "Hide All" : "Show All") {
-                    allUnitsShowing.toggle()
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(allUnitsShowing ? "Hide All" : "Show All") {
+                        allUnitsShowing.toggle()
+                    }
+
+                    SortButtonView(sortedAscending: $unitsSortedAscending)
                 }
-
-                SortButtonView(sortedAscending: $unitsSortedAscending)
-
-                if valueIsFocused {
-                    Button("Done") {
-                        valueIsFocused = false
+                
+                ToolbarItemGroup(placement: .keyboard) {
+                    if valueIsFocused {
+                        Button("Done") {
+                            valueIsFocused = false
+                        }
                     }
                 }
             }
