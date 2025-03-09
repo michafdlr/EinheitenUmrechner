@@ -278,7 +278,14 @@
       }
     },
     "Error" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler"
+          }
+        }
+      }
     },
     "Error fetching Data" : {
       "localizations" : {
@@ -381,7 +388,14 @@
       }
     },
     "No currency selected" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Währung gewählt"
+          }
+        }
+      }
     },
     "No favorite units selected. Tap plus or swipe in \"All Units\" section to add favorite units." : {
       "localizations" : {
@@ -394,7 +408,14 @@
       }
     },
     "OK" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
     },
     "Please make sure you are connected to the internet!" : {
       "localizations" : {
