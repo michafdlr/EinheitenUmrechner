@@ -247,11 +247,20 @@ struct CategoryView<T: Dimension>: View {
             )
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(
+                        "Search All Units",
+                        systemImage:
+                            "magnifyingglass.circle.fill"
+                    ) {
+                        searchIsActive = true
+                    }
+                    .labelStyle(.iconOnly)
+                    
+                    SortButtonView(sortedAscending: $unitsSortedAscending)
+                    
                     Button(allUnitsShowing ? "Hide All" : "Show All") {
                         allUnitsShowing.toggle()
                     }
-
-                    SortButtonView(sortedAscending: $unitsSortedAscending)
                 }
                 
                 ToolbarItemGroup(placement: .keyboard) {

@@ -286,11 +286,17 @@ struct CurrencyView: View {
                     .navigationTitle("Convert Currency")
                     .toolbar {
                         ToolbarItemGroup(placement: .topBarTrailing) {
+                            Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
+                                searchIsActive = true
+                            }
+                            .labelStyle(.iconOnly)
+                            
+                            SortButtonView(sortedAscending: $sortedAscending)
+
                             Button(allUnitsShowing ? "Hide All" : "Show All") {
                                 allUnitsShowing.toggle()
                             }
-
-                            SortButtonView(sortedAscending: $sortedAscending)
+                            
                         }
 
                         ToolbarItemGroup(placement: .keyboard) {
