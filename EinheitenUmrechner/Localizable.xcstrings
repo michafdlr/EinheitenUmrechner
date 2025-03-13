@@ -587,6 +587,16 @@
         }
       }
     },
+    "Shoe Size" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schuhgröße"
+          }
+        }
+      }
+    },
     "Show All" : {
       "localizations" : {
         "de" : {

@@ -57,6 +57,7 @@ extension CategoryName {
             .init(name: "Speed"),
             .init(name: "Information Storage"),
             .init(name: "Electric Potential"),
+            .init(name: "Shoe Size")
         ]
     }
 }
@@ -147,4 +148,5 @@ let allCategories = [
     Category(
         view: { ElectricPotentialView() }, title: "Electric Potential",
         imageName: "bolt.ring.closed"),
+    Category(view: { ShoeSizeView() }, title: "Shoe Size", imageName: "shoe.circle.fill"),
 ]

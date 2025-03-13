@@ -111,6 +111,9 @@ let allElectricChargeUnits: [UnitElectricCharge] = [
     .ampereHours, .coulombs, .kiloampereHours, .megaampereHours, .microampereHours, .milliampereHours
 ]
 
+let allShoeSizes: [UnitShoeSize] = [
+    .eu, .uk, .usMen, .usWomen
+]
 
 
 func getUnit(from symbol: String) -> Dimension? {        
@@ -118,7 +121,7 @@ func getUnit(from symbol: String) -> Dimension? {
         allAreaUnits, allMassUnits, allAngleUnits, allPowerUnits, allSpeedUnits,allChargeUnits, allEnergyUnits, allLengthUnits, allVolumeUnits, allDurationUnits,
         allPressureUnits, allFrequencyUnits, allTemperatureUnits, allAccelerationUnits,
         allElectricChargeUnits, allFuelEfficiencyUnits, allElectricCurrentUnits,
-        allElectricResistanceUnits, allInformationStorageUnits, allElectricPotentialDifferenceUnits
+        allElectricResistanceUnits, allInformationStorageUnits, allElectricPotentialDifferenceUnits, allShoeSizes
     ]
 
     let allUnits = unitArrays.reduce([], +)

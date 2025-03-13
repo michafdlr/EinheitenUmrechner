@@ -320,6 +320,19 @@ struct CurrencyView: View {
                         Text(errorMessage ?? "An unknown error occurred.")
                     }
                 }
+                .refreshable {
+                    Task {
+                        if let selected = selectedCurrency.first {
+                            let key =
+                                String(describing: selected.name) == "inch"
+                                ? "1inch" : String(describing: selected.name)
+                            await getData(currency: key)
+                            sortResults()
+                        } else {
+                            print("⚠️ No selected currency. Skipping API call.")
+                        }
+                    }
+                }
 
                 if isLoading {
                     VStack {
