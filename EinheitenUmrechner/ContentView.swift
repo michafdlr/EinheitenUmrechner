@@ -39,24 +39,60 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            GridStack(categories: filteredCategories)
+        GeometryReader { proxy in
+            let layout = [
+                GridItem(.adaptive(minimum: proxy.size.width / 4))
+            ]
+            NavigationStack {
+                ScrollView {
+                    LazyVGrid(columns: layout, alignment: .center, spacing: 20) {
+                        ForEach(filteredCategories) { category in
+                            NavigationLink {
+                                category.view()
+                            } label: {
+                                ZStack(alignment: .center) {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundStyle(.accent)
+                                        .frame(minHeight: proxy.size.width / 4)
+                                        .shadow(color: .gray, radius: 5)
+
+                                    VStack(alignment: .center, spacing: 10) {
+                                        Text(category.title)
+                                            .font(.headline)
+                                            .foregroundStyle(.white)
+                                            .bold()
+                                            .multilineTextAlignment(.center)
+                                            .padding(.horizontal, 5)
+
+                                        Image(systemName: category.imageName)
+                                            .font(.headline)
+                                            .foregroundStyle(.white)
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
                 .navigationTitle("Convert Units")
                 .toolbar {
                     SortButtonView(sortedAscending: $categoriesSortedAscending)
-                    
-                    Button("Search Category", systemImage: "magnifyingglass.circle.fill") {
+
+                    Button("Search Category", systemImage: "magnifyingglass.circle.fill")
+                    {
                         searchIsActive = true
                     }
                 }
                 .animation(
-                    .easeIn(duration: 0.5), value: categoriesSortedAscending)
+                    .easeInOut(duration: 0.5), value: categoriesSortedAscending)
+            }
+            .searchable(
+                text: $searchText,
+                isPresented: $searchIsActive,
+                placement: .navigationBarDrawer(displayMode: .automatic),
+                prompt: "Search Category")
         }
-        .searchable(
-            text: $searchText,
-            isPresented: $searchIsActive,
-            placement: .navigationBarDrawer(displayMode: .automatic),
-            prompt: "Search Category")
     }
 }
 
