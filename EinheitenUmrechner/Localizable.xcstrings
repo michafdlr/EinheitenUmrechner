@@ -37,6 +37,9 @@
         }
       }
     },
+    "Accent Color" : {
+
+    },
     "Accept" : {
       "localizations" : {
         "de" : {
@@ -106,6 +109,9 @@
           }
         }
       }
+    },
+    "Background Color" : {
+
     },
     "Base Currency" : {
       "localizations" : {
@@ -337,6 +343,9 @@
         }
       }
     },
+    "Grid Element Color" : {
+
+    },
     "Hide All" : {
       "localizations" : {
         "de" : {
@@ -547,6 +556,16 @@
         }
       }
     },
+    "Select Base Unit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle Grundwährung"
+          }
+        }
+      }
+    },
     "Select Currency" : {
       "localizations" : {
         "de" : {
@@ -586,6 +605,9 @@
           }
         }
       }
+    },
+    "Settings" : {
+
     },
     "Shoe Size" : {
       "localizations" : {
@@ -636,6 +658,9 @@
           }
         }
       }
+    },
+    "Text Color" : {
+
     },
     "Time" : {
       "localizations" : {

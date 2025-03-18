@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NoInternetView: View {
+    @EnvironmentObject var colors: colorManager
+    
     var body: some View {
         VStack {
             Text("Error fetching Data")
@@ -19,7 +21,7 @@ struct NoInternetView: View {
             Image(systemName: "wifi.exclamationmark")
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.accent.opacity(0.5))
+                .foregroundStyle(colors.accentColor)
                 .frame(width: UIScreen.main.bounds.width * 0.5)
             
             

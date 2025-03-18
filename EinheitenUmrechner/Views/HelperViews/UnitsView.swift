@@ -9,6 +9,8 @@ import SwiftUI
 
 struct UnitsView<UnitType: Dimension>: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var colors: colorManager
+    
     @Binding var selectedUnit: UnitType
     @State private var searchText = ""
     
@@ -39,29 +41,44 @@ struct UnitsView<UnitType: Dimension>: View {
                     .bold()
 
                     ForEach(filteredUnits, id: \.self) { unit in
-                        Divider()
+                        Rectangle()
+                            .frame(height: 2)
+                            .foregroundStyle(colors.accentColor)
                         GridRow {
                             Text(measureFormatter.string(from: unit))
 
                             Text(unit.symbol)
          
                             Image(systemName: selectedUnit == unit ? "checkmark.circle.fill" : "checkmark.circle")
-                                .foregroundStyle(selectedUnit == unit ? .accent : .gray)
+                                .foregroundStyle(selectedUnit == unit ? colors.accentColor : colors.backgroundColor)
                             
                         }
                         .onTapGesture {
                             selectedUnit = unit
                         }
                     }
-                    
                 }
-                .toolbar{
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
+            }
+            .toolbar{
+                ToolbarItem(placement: .principal) {
+                    Text("Select Base Unit")
+                        .foregroundStyle(colors.textColor)
+                        .bold()
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
                     Button("Accept") {
                         dismiss()
                     }
+                    .foregroundStyle(colors.accentColor)
                 }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Unit")
             }
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Unit")
+            .scrollContentBackground(.hidden)
+            .background(colors.backgroundColor)
         }
     }
 }

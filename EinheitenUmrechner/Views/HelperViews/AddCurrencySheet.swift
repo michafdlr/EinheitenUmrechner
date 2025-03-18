@@ -10,6 +10,7 @@ import SwiftUI
 
 struct AddCurrencySheetView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var colors: colorManager
 
     @Query(sort: \FavoriteCurrency.rawName) var currencies: [FavoriteCurrency]
     @State private var searchText = ""
@@ -46,6 +47,7 @@ struct AddCurrencySheetView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .buttonStyle(.borderedProminent)
                     }
+                    .listRowBackground(colors.foregroundColor)
                 }
                 
                 Section {
@@ -82,9 +84,10 @@ struct AddCurrencySheetView: View {
                                 systemName: currency.favorited
                                 ? "checkmark.circle.fill" : "checkmark.circle"
                             )
-                            .foregroundStyle(currency.favorited ? .accent : .gray)
+                            .foregroundStyle(currency.favorited ? colors.accentColor : colors.backgroundColor)
                             .frame(maxWidth: .infinity, alignment: .center)
                         }
+                        .font(.callout)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             currency.favorited.toggle()
@@ -97,9 +100,12 @@ struct AddCurrencySheetView: View {
                         .font(.title2)
                         .bold()
                 }
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
             }
-            .navigationTitle("Select Currency")
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationTitle("Select Currency")
+//            .navigationBarTitleDisplayMode(.inline)
             .searchable(
                 text: $searchText,
                 isPresented: $searchIsActive,
@@ -107,15 +113,30 @@ struct AddCurrencySheetView: View {
                 prompt: "Search Currency"
             )
             .toolbar {
-                Button(changesMade ? "Save" : "Cancel") {
-                    dismiss()
+                ToolbarItem(placement: .principal) {
+                    Text("Select Currency")
+                        .foregroundStyle(colors.textColor)
+                        .font(.headline)
+                        .bold()
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(changesMade ? "Save" : "Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(colors.accentColor)
                 }
                 
-                Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
-                    searchIsActive = true
+                ToolbarItem(placement: .keyboard) {
+                    Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
+                        searchIsActive = true
+                    }
+                    .labelStyle(.iconOnly)
+                    .foregroundStyle(colors.accentColor)
                 }
-                .labelStyle(.iconOnly)
             }
+            .scrollContentBackground(.hidden)
+            .background(colors.backgroundColor)
+            .textCase(nil)
         }
     }
 }

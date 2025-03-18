@@ -11,6 +11,7 @@ import SwiftData
 struct AddUnitSheetView<T: Dimension>: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
+    @EnvironmentObject var colors: colorManager
     
     @Bindable var category: CategoryName
     @State private var searchText = ""
@@ -71,6 +72,9 @@ struct AddUnitSheetView<T: Dimension>: View {
                 }
                 .font(.headline)
                 .bold()
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
                 
                 ForEach(filteredUnits, id: \.self) { unit in
                     HStack {
@@ -83,7 +87,7 @@ struct AddUnitSheetView<T: Dimension>: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                         
                         Image(systemName: category.favorites.contains(where: {$0.unitSymbol == unit.symbol}) ? "checkmark.circle.fill" : "checkmark.circle")
-                            .foregroundStyle(category.favorites.contains(where: {$0.unitSymbol == unit.symbol}) ? .accent : .gray)
+                            .foregroundStyle(category.favorites.contains(where: {$0.unitSymbol == unit.symbol}) ? colors.accentColor : colors.backgroundColor)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .contentShape(Rectangle())
@@ -101,14 +105,29 @@ struct AddUnitSheetView<T: Dimension>: View {
                         changesMade = true
                     }
                 }
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
                 
             }
             .searchable(text: $searchText, isPresented: $searchIsActive, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search Unit")
             .toolbar {
-                Button(changesMade ? "Save" : "Cancel") {
-                    dismiss()
+                ToolbarItem(placement: .principal) {
+                    Text("Select Unit")
+                        .foregroundStyle(colors.textColor)
+                        .bold()
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(changesMade ? "Save" : "Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(colors.accentColor)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(colors.backgroundColor)
+//            .navigationTitle("Select Unit")
+//            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             sortedUnits = allUnits
@@ -117,8 +136,6 @@ struct AddUnitSheetView<T: Dimension>: View {
         .onChange(of: searchText) {
             sortUnits()
         }
-        .navigationTitle("Select Unit")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

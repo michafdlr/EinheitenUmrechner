@@ -10,6 +10,7 @@ import SwiftData
 
 struct CurrencySelectionView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var colors: colorManager
     
     @Query var currencies: [FavoriteCurrency]
     @Bindable var selectedCurrency: FavoriteCurrency
@@ -31,7 +32,7 @@ struct CurrencySelectionView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Selected Currency") {
+                Section {
                     HStack {
                         Text(
                             "\(selectedCurrency.rawName) (\(String(describing: selectedCurrency.name)))"
@@ -41,9 +42,14 @@ struct CurrencySelectionView: View {
                         Spacer()
                         
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.accent)
+                            .foregroundStyle(colors.accentColor)
                     }
+                } header: {
+                    Text("Selected Currency")
+                        .font(.title2)
+                        .bold()
                 }
+                .listRowBackground(colors.foregroundColor)
                 
                 Section {
                     HStack {
@@ -77,7 +83,7 @@ struct CurrencySelectionView: View {
                             
                             
                             Image(systemName: selectedCurrency.name == currency ? "checkmark.circle.fill" : "checkmark.circle")
-                                .foregroundStyle(selectedCurrency.name == currency ? .accent : .gray)
+                                .foregroundStyle(selectedCurrency.name == currency ? colors.accentColor : colors.backgroundColor)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .contentShape(Rectangle())
@@ -107,10 +113,21 @@ struct CurrencySelectionView: View {
                         .labelStyle(.iconOnly)
                     }
                 }
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
             }
             .toolbar {
-                Button(selectionChanged ? "Accept" : "Cancel") {
-                    dismiss()
+                ToolbarItem(placement: .principal) {
+                    Text("Select Base Currency")
+                        .foregroundStyle(colors.textColor)
+                    }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(selectionChanged ? "Accept" : "Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(colors.accentColor)
                 }
             }
             .searchable(
@@ -118,7 +135,10 @@ struct CurrencySelectionView: View {
                 isPresented: $searchIsPresented,
                 placement: .navigationBarDrawer(displayMode: .automatic),
                 prompt: Text("Search Currency"))
-            .navigationTitle("Select Base Currency")
+//            .navigationTitle("Select Base Currency")
+//            .toolbarColorScheme(.dark, for: .navigationBar)
+            .scrollContentBackground(.hidden)
+            .background(colors.backgroundColor)
         }
     }
 }

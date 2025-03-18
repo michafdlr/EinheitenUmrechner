@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CategoryView<T: Dimension>: View {
     @Environment(\.modelContext) var modelContext
+    @EnvironmentObject var colors: colorManager
 
     @FocusState.Binding var valueIsFocused: Bool
     @Binding var startUnit: T
@@ -113,7 +114,6 @@ struct CategoryView<T: Dimension>: View {
                 Section {
                     StartValueView(
                         textFieldName: textFieldName,
-//                        textInputWidth: textInputWidth,
                         valueIsFocused: $valueIsFocused,
                         inputValue: $startValue,
                         startUnit: $startUnit,
@@ -134,6 +134,9 @@ struct CategoryView<T: Dimension>: View {
 
                     }
                 }
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
 
                 Section {
                     if favorites.isEmpty {
@@ -179,6 +182,9 @@ struct CategoryView<T: Dimension>: View {
                     }
                     
                 }
+                .listRowBackground(colors.foregroundColor)
+                .listRowSeparatorTint(colors.accentColor)
+                .listRowSeparator(.automatic)
 
                 if allUnitsShowing {
                     Section {
@@ -237,6 +243,9 @@ struct CategoryView<T: Dimension>: View {
                             .labelStyle(.iconOnly)
                         }
                     }
+                    .listRowBackground(colors.foregroundColor)
+                    .listRowSeparatorTint(colors.accentColor)
+                    .listRowSeparator(.automatic)
                 }
             }
             .searchable(
@@ -245,7 +254,14 @@ struct CategoryView<T: Dimension>: View {
                 placement: .navigationBarDrawer(displayMode: .automatic),
                 prompt: "Search from all Units"
             )
+            .scrollContentBackground(.hidden)
+            .background(colors.backgroundColor)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Convert \(title)")
+                        .foregroundStyle(colors.textColor)
+                        .bold()
+                }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(
                         "Search All Units",
@@ -261,6 +277,7 @@ struct CategoryView<T: Dimension>: View {
                     Button(allUnitsShowing ? "Hide All" : "Show All") {
                         allUnitsShowing.toggle()
                     }
+                    .foregroundStyle(colors.accentColor)
                 }
                 
                 ToolbarItemGroup(placement: .keyboard) {
@@ -274,7 +291,7 @@ struct CategoryView<T: Dimension>: View {
             .sheet(isPresented: $sheetIsShowing) {
                 AddUnitSheetView(category: category, allUnits: allUnits)
             }
-            .navigationTitle("Convert \(title)")
+//            .navigationTitle("Convert \(title)")
         }
         .onAppear {
             sortedFavorites = favorites

@@ -11,6 +11,7 @@ import SwiftUI
 struct CurrencyView: View {
     //    @EnvironmentObject var networkMonitor: NetworkMonitor
     @ObservedObject private var networkMonitor = NetworkMonitor()
+    @EnvironmentObject var colors: colorManager
 
     let baseUrl =
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/"
@@ -79,7 +80,7 @@ struct CurrencyView: View {
         if networkMonitor.isConnected {
             ZStack {
                 NavigationStack {
-                    Form {
+                    List {
                         Section {
                             HStack {
                                 GeometryReader { proxy in
@@ -88,6 +89,12 @@ struct CurrencyView: View {
                                         format: .number,
                                         prompt: Text("Your Value")
                                     )
+                                    .textFieldStyle(.plain)
+                                    .padding(5)
+                                    .font(.title3)
+                                    .frame(maxWidth: .infinity)
+                                    .background(colors.backgroundColor)
+                                    .cornerRadius(10)
                                     .textFieldStyle(.roundedBorder)
                                     .keyboardType(.decimalPad)
                                     .focused($valueIsFocused)
@@ -122,6 +129,7 @@ struct CurrencyView: View {
                                 }
                             }
                         }
+                        .listRowBackground(colors.foregroundColor)
 
                         Section {
                             if isLoading {
@@ -177,6 +185,7 @@ struct CurrencyView: View {
                                 }
                             }
                         }
+                        .listRowBackground(colors.foregroundColor)
 
                         if allUnitsShowing {
                             Section {
@@ -241,7 +250,7 @@ struct CurrencyView: View {
                                                         systemImage:
                                                             "plus.circle"
                                                     )
-                                                    .tint(.green)
+                                                    .tint(colors.accentColor)
                                                 }
                                             }
                                         }
@@ -270,6 +279,9 @@ struct CurrencyView: View {
                             .onChange(of: filteredResult) {
                                 sortResults()
                             }
+                            .listRowBackground(colors.foregroundColor)
+                            .listRowSeparatorTint(colors.accentColor)
+                            .listRowSeparator(.automatic)
                         }
                     }
                     .task {
@@ -283,8 +295,15 @@ struct CurrencyView: View {
                             print("⚠️ No selected currency. Skipping API call.")
                         }
                     }
-                    .navigationTitle("Convert Currency")
+                    .scrollContentBackground(.hidden)
+//                    .navigationTitle("Convert Currency")
+                    .background(colors.backgroundColor)
                     .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("Convert Currency")
+                                .foregroundStyle(colors.textColor)
+                        }
+                        
                         ToolbarItemGroup(placement: .topBarTrailing) {
                             Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
                                 searchIsActive = true
@@ -296,10 +315,11 @@ struct CurrencyView: View {
                             Button(allUnitsShowing ? "Hide All" : "Show All") {
                                 allUnitsShowing.toggle()
                             }
+                            .foregroundStyle(colors.accentColor)
                             
                         }
 
-                        ToolbarItemGroup(placement: .keyboard) {
+                        ToolbarItem(placement: .keyboard) {
                             if valueIsFocused {
                                 Button("Done") {
                                     valueIsFocused = false
@@ -338,11 +358,11 @@ struct CurrencyView: View {
                     VStack {
                         Text("Loading...")
                             .font(.title)
-                            .foregroundStyle(.accent)
+                            .foregroundStyle(colors.accentColor)
                         ProgressView()
                             .scaleEffect(x: 2, y: 2)
                     }
-                    .tint(.accentColor)
+                    .tint(colors.accentColor)
                     .containerRelativeFrame(
                         [.horizontal, .vertical],
                         { length, axis in

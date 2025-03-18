@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SortButtonView: View {
+    @EnvironmentObject var colors: colorManager
     @Binding var sortedAscending: Bool
     @State private var angle = 0.0
     
@@ -23,6 +24,7 @@ struct SortButtonView: View {
             .animation(
                 .bouncy(duration: 0.5, extraBounce: 0.1), value: angle
             )
+            .foregroundStyle(colors.accentColor)
         }
     }
 }

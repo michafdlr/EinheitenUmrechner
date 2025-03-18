@@ -12,6 +12,7 @@ import SwiftUI
 struct EinheitenUmrechnerApp: App {
     @AppStorage("isFirstTimeLaunch") private var isFirstTimeLaunch = true
 //    @StateObject var networkMonitor = NetworkMonitor()
+    @StateObject var colors = colorManager()
     
     private var modelContainer: ModelContainer {
         if let container = CategoriesContainer.createCategories(shouldCreateDefault: &isFirstTimeLaunch) {
@@ -26,8 +27,11 @@ struct EinheitenUmrechnerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .tint(colors.accentColor)
+                .preferredColorScheme(.dark)
+                .foregroundStyle(colors.textColor)
         }
-//        .environmentObject(networkMonitor)
+        .environmentObject(colors)
         .modelContainer(modelContainer)
     }
     
