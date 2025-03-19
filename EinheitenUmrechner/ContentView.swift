@@ -105,13 +105,7 @@ struct ContentView: View {
                 .animation(
                     .easeInOut(duration: 0.5), value: categoriesSortedAscending)
                 .sheet(isPresented: $settingsShowing) {
-                    VStack{
-                        ColorPicker("Background Color", selection: $colors.backgroundColor)
-                        ColorPicker("Accent Color", selection: $colors.accentColor)
-                        ColorPicker("Grid Element Color", selection: $colors.foregroundColor)
-                        ColorPicker("Text Color", selection: $colors.textColor)
-                    }
-                    .background(colors.backgroundColor)
+                    SettingsView()
                 }
             }
             .searchable(

@@ -121,6 +121,7 @@ struct CurrencySelectionView: View {
                 ToolbarItem(placement: .principal) {
                     Text("Select Base Currency")
                         .foregroundStyle(colors.textColor)
+                        .bold()
                     }
                 
                 ToolbarItem(placement: .topBarTrailing) {

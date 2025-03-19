@@ -24,7 +24,7 @@ struct CurrencyView: View {
     @State private var sortedResult = Array([String: Double]())
     @State private var allUnitsShowing = true
     @State private var sheetIsShowing = false
-    @State private var isLoading = true
+    @State private var isLoading = false
     @State private var searchIsActive = false
 
     // Error handling
@@ -301,6 +301,7 @@ struct CurrencyView: View {
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             Text("Convert Currency")
+                                .bold()
                                 .foregroundStyle(colors.textColor)
                         }
                         
@@ -324,6 +325,7 @@ struct CurrencyView: View {
                                 Button("Done") {
                                     valueIsFocused = false
                                 }
+                                .bold()
                             }
                         }
                     }
