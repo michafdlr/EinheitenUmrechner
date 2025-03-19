@@ -38,7 +38,14 @@
       }
     },
     "Accent Color" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akzentfarbe"
+          }
+        }
+      }
     },
     "Accept" : {
       "localizations" : {
@@ -111,7 +118,14 @@
       }
     },
     "Background Color" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hintegrundfarbe"
+          }
+        }
+      }
     },
     "Base Currency" : {
       "localizations" : {
@@ -344,7 +358,14 @@
       }
     },
     "Grid Element Color" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitterelementfarbe"
+          }
+        }
+      }
     },
     "Hide All" : {
       "localizations" : {
@@ -457,7 +478,14 @@
       }
     },
     "Preview Text" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorschau"
+          }
+        }
+      }
     },
     "Remove Favorite" : {
       "localizations" : {
@@ -610,7 +638,14 @@
       }
     },
     "Settings" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        }
+      }
     },
     "Shoe Size" : {
       "localizations" : {
@@ -663,7 +698,14 @@
       }
     },
     "Text Color" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Textfarbe"
+          }
+        }
+      }
     },
     "Time" : {
       "localizations" : {

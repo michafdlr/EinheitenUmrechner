@@ -34,63 +34,60 @@ struct AddCurrencySheetView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                if searchIsActive && changesMade {
-                    Section{
-                        Button {
-                            searchIsActive = false
-                            searchText = ""
-                        } label: {
-                            Text("Accept")
-                                .padding(.horizontal)
-                                .padding(.vertical, 5)
-                                .foregroundStyle(colors.accentColor)
-                                .bold()
-                                .background(colors.backgroundColor)
-                                .clipShape(.rect(cornerRadius: 5))
-                        }
-                        .frame(maxWidth: .infinity, alignment: .center)
-//                        .buttonStyle(.borderedProminent)
-                        
-                    }
-                    .listRowBackground(colors.foregroundColor)
+            if searchIsActive && changesMade {
+                Button {
+                    searchIsActive = false
+                    searchText = ""
+                } label: {
+                    Text("Accept")
+                        .padding(.horizontal)
+                        .padding(.vertical, 5)
+                        .foregroundStyle(colors.accentColor)
+                        .bold()
+                        .background(colors.backgroundColor)
+                        .clipShape(.rect(cornerRadius: 5))
                 }
-                
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
+            List {
                 Section {
                     HStack {
                         Text("Currency")
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        
+
                         Spacer()
-                        
+
                         Text("Symbol")
                             .frame(maxWidth: .infinity, alignment: .trailing)
-                        
+
                         Spacer()
-                        
+
                         Text("Selected")
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .font(.headline)
                     .bold()
-                    
+
                     ForEach(filteredCurrencies) { currency in
                         HStack {
                             Text(currency.name.rawValue)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            
+
                             Spacer()
-                            
+
                             Text(String(describing: currency.name))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
-                            
+
                             Spacer()
-                            
+
                             Image(
                                 systemName: currency.favorited
-                                ? "checkmark.circle.fill" : "checkmark.circle"
+                                    ? "checkmark.circle.fill" : "checkmark.circle"
                             )
-                            .foregroundStyle(currency.favorited ? colors.accentColor : colors.backgroundColor)
+                            .foregroundStyle(
+                                currency.favorited
+                                    ? colors.accentColor : colors.backgroundColor
+                            )
                             .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .font(.callout)
@@ -100,8 +97,7 @@ struct AddCurrencySheetView: View {
                             changesMade = true
                         }
                     }
-                }
-                header: {
+                } header: {
                     Text("All Currencies")
                         .font(.title2)
                         .bold()
@@ -110,8 +106,8 @@ struct AddCurrencySheetView: View {
                 .listRowSeparatorTint(colors.accentColor)
                 .listRowSeparator(.automatic)
             }
-//            .navigationTitle("Select Currency")
-//            .navigationBarTitleDisplayMode(.inline)
+            //            .navigationTitle("Select Currency")
+            //            .navigationBarTitleDisplayMode(.inline)
             .searchable(
                 text: $searchText,
                 isPresented: $searchIsActive,
@@ -131,9 +127,12 @@ struct AddCurrencySheetView: View {
                     }
                     .foregroundStyle(colors.accentColor)
                 }
-                
+
                 ToolbarItem(placement: .keyboard) {
-                    Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
+                    Button(
+                        "Search All Currencies",
+                        systemImage: "magnifyingglass.circle.fill"
+                    ) {
                         searchIsActive = true
                     }
                     .labelStyle(.iconOnly)

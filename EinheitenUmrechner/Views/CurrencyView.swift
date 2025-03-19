@@ -24,7 +24,7 @@ struct CurrencyView: View {
     @State private var sortedResult = Array([String: Double]())
     @State private var allUnitsShowing = true
     @State private var sheetIsShowing = false
-    @State private var isLoading = false
+    @State private var isLoading = true
     @State private var searchIsActive = false
 
     // Error handling
@@ -89,6 +89,7 @@ struct CurrencyView: View {
                                         format: .number,
                                         prompt: Text("Your Value")
                                     )
+                                    .disabled(isLoading)
                                     .textFieldStyle(.plain)
                                     .padding(5)
                                     .font(.title3)
@@ -164,6 +165,9 @@ struct CurrencyView: View {
                                         favorites[index].favorited = false
                                     }
                                 }
+                                .listRowBackground(colors.foregroundColor)
+                                .listRowSeparatorTint(colors.accentColor)
+                                .listRowSeparator(.automatic, edges: .bottom)
                             }
                         } header: {
                             HStack {
@@ -179,6 +183,7 @@ struct CurrencyView: View {
                                 ) {
                                     sheetIsShowing.toggle()
                                 }
+                                .disabled(isLoading)
                                 .labelStyle(.iconOnly)
                                 .sheet(isPresented: $sheetIsShowing) {
                                     AddCurrencySheetView()
@@ -310,13 +315,16 @@ struct CurrencyView: View {
                                 searchIsActive = true
                             }
                             .labelStyle(.iconOnly)
+                            .disabled(isLoading)
                             
                             SortButtonView(sortedAscending: $sortedAscending)
+                                .disabled(isLoading)
 
                             Button(allUnitsShowing ? "Hide All" : "Show All") {
                                 allUnitsShowing.toggle()
                             }
                             .foregroundStyle(colors.accentColor)
+                            .disabled(isLoading)
                             
                         }
 

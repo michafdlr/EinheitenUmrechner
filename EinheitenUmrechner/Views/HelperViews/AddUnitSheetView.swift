@@ -50,13 +50,20 @@ struct AddUnitSheetView<T: Dimension>: View {
     var body: some View {
         NavigationStack {
             if searchIsActive && changesMade {
-                Button("Accept") {
+                Button {
                     searchIsActive = false
                     searchText = ""
+                } label: {
+                    Text("Accept")
+                        .padding(.horizontal)
+                        .padding(.vertical, 5)
+                        .foregroundStyle(colors.accentColor)
+                        .bold()
+                        .background(colors.backgroundColor)
+                        .clipShape(.rect(cornerRadius: 5))
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.roundedRectangle(radius: 10))
+                .listRowBackground(colors.foregroundColor)
             }
             
             List {

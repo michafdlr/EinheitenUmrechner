@@ -72,7 +72,7 @@ let allFuelEfficiencyUnits: [UnitFuelEfficiency] = [
 ]
 
 let allPowerUnits: [UnitPower] = [
-    .watts, .kilowatts, .megawatts, .gigawatts, .terawatts, .horsepower,
+    .watts, .kilowatts, .gigawatts, .terawatts, .horsepower,
     .femtowatts, .megawatts, .microwatts, .milliwatts, .nanowatts, .picowatts,
 ]
 
