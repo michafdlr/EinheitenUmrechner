@@ -18,10 +18,6 @@ class Favorite {
         self.unitSymbol = name.symbol
         self.categoryName = categoryName
     }
-    
-//    var unit: Dimension? {
-//        UnitFactory.unit(from: unitSymbol)
-//    }
 }
 
 @Model
@@ -71,7 +67,7 @@ actor CategoriesContainer {
             let container = try ModelContainer(for: schema, configurations: config)
             if shouldCreateDefault {
                 CategoryName.allCategoryNames.forEach { container.mainContext.insert($0) }
-                FavoriteCurrency.allCurrencies.forEach { container.mainContext.insert($0)}
+                FavoriteCurrency.allCurrencies.forEach { container.mainContext.insert($0) }
                 shouldCreateDefault = false
             }
             return container

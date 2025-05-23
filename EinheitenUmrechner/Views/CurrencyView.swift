@@ -34,16 +34,18 @@ struct CurrencyView: View {
     @Query(
         filter: #Predicate<FavoriteCurrency> {
             $0.favorited == true
-        }, sort: \FavoriteCurrency.rawName, animation: .easeIn) var favorites:
-        [FavoriteCurrency]
+        },
+        sort: \FavoriteCurrency.rawName,
+        animation: .easeIn
+    ) var favorites: [FavoriteCurrency]
 
-    @Query(sort: \FavoriteCurrency.rawName) var allFavoriteCurrencies:
-        [FavoriteCurrency]
+    @Query(sort: \FavoriteCurrency.rawName) var allFavoriteCurrencies: [FavoriteCurrency]
 
     @Query(
         filter: #Predicate<FavoriteCurrency> {
             $0.startCurrency == true
-        }) var selectedCurrency: [FavoriteCurrency]
+        }
+    ) var selectedCurrency: [FavoriteCurrency]
 
     var filteredResult: [String: Double] {
         if searchText.isEmpty {
@@ -85,7 +87,8 @@ struct CurrencyView: View {
                             HStack {
                                 GeometryReader { proxy in
                                     TextField(
-                                        "Currency Amount", value: $amount,
+                                        "Currency Amount",
+                                        value: $amount,
                                         format: .number,
                                         prompt: Text("Your Value")
                                     )
@@ -119,10 +122,12 @@ struct CurrencyView: View {
                                     NavigationLink {
                                         CurrencySelectionView(
                                             selectedCurrency: selectedCurrency
-                                                .first!)
+                                                .first!
+                                        )
                                     } label: {
                                         Image(
-                                            systemName: "gearshape.circle.fill")
+                                            systemName: "gearshape.circle.fill"
+                                        )
                                     }
                                 } else {
                                     Text("No currency selected")
@@ -136,8 +141,7 @@ struct CurrencyView: View {
                             if isLoading {
                                 VStack {
                                     if favorites.count > 0 {
-                                        ForEach(0..<favorites.count, id: \.self)
-                                        { _ in
+                                        ForEach(0..<favorites.count, id: \.self) { _ in
                                             LoadSkeletonView()
                                         }
                                     }
@@ -206,7 +210,8 @@ struct CurrencyView: View {
                                     .blinking(duration: 2)
                                 } else {
                                     ForEach(sortedResult, id: \.key) {
-                                        key, val in
+                                        key,
+                                        val in
                                         HStack {
                                             Text(
                                                 "\(val * amount, specifier: "%.3f")"
@@ -301,39 +306,44 @@ struct CurrencyView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
-//                    .navigationTitle("Convert Currency")
+                    //                    .navigationTitle("Convert Currency")
                     .background(colors.backgroundColor)
                     .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text("Convert Currency")
-                                .bold()
-                                .foregroundStyle(colors.textColor)
-                        }
-                        
-                        ToolbarItemGroup(placement: .topBarTrailing) {
-                            Button("Search All Currencies", systemImage: "magnifyingglass.circle.fill") {
-                                searchIsActive = true
+                        if !isLoading {
+                            ToolbarItem(placement: .principal) {
+                                Text("Convert Currency")
+                                    .bold()
+                                    .foregroundStyle(colors.textColor)
                             }
-                            .labelStyle(.iconOnly)
-                            .disabled(isLoading)
                             
-                            SortButtonView(sortedAscending: $sortedAscending)
-                                .disabled(isLoading)
-
-                            Button(allUnitsShowing ? "Hide All" : "Show All") {
-                                allUnitsShowing.toggle()
-                            }
-                            .foregroundStyle(colors.accentColor)
-                            .disabled(isLoading)
-                            
-                        }
-
-                        ToolbarItem(placement: .keyboard) {
-                            if valueIsFocused {
-                                Button("Done") {
-                                    valueIsFocused = false
+                            ToolbarItemGroup(placement: .topBarTrailing) {
+                                Button(
+                                    "Search All Currencies",
+                                    systemImage: "magnifyingglass.circle.fill"
+                                ) {
+                                    searchIsActive = true
                                 }
-                                .bold()
+                                .labelStyle(.iconOnly)
+                                .disabled(isLoading)
+                                
+                                SortButtonView(sortedAscending: $sortedAscending)
+                                    .disabled(isLoading)
+                                
+                                Button(allUnitsShowing ? "Hide All" : "Show All") {
+                                    allUnitsShowing.toggle()
+                                }
+                                .foregroundStyle(colors.accentColor)
+                                .disabled(isLoading)
+                                
+                            }
+                            
+                            ToolbarItem(placement: .keyboard) {
+                                if valueIsFocused {
+                                    Button("Done") {
+                                        valueIsFocused = false
+                                    }
+                                    .bold()
+                                }
                             }
                         }
                     }
@@ -341,7 +351,8 @@ struct CurrencyView: View {
                         text: $searchText,
                         isPresented: $searchIsActive,
                         placement: .navigationBarDrawer(
-                            displayMode: .automatic),
+                            displayMode: .automatic
+                        ),
                         prompt: "Search Target Currency"
                     )
                     .alert("Error", isPresented: $showErrorAlert) {
@@ -363,7 +374,7 @@ struct CurrencyView: View {
                         }
                     }
                 }
-
+                
                 if isLoading {
                     VStack {
                         Text("Loading...")
@@ -377,13 +388,13 @@ struct CurrencyView: View {
                         [.horizontal, .vertical],
                         { length, axis in
                             if axis == .vertical {
-                                return 1.2 * length
+                                return 2 * length
                             }
                             return length
                         }
                     )
                     .ignoresSafeArea()
-                    .background(.ultraThinMaterial)
+                    .background(.regularMaterial)
                     .clipShape(.rect(cornerRadius: 10))
                 }
             }
@@ -437,7 +448,9 @@ struct CurrencyView: View {
 
             do {
                 let decodedResponse = try JSONDecoder().decode(
-                    ExchangeRatesResponse.self, from: data)
+                    ExchangeRatesResponse.self,
+                    from: data
+                )
                 result = decodedResponse.rates[currency] ?? [:]
             } catch {
                 await MainActor.run {

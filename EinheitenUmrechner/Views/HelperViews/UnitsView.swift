@@ -21,7 +21,7 @@ struct UnitsView<UnitType: Dimension>: View {
             return allUnits
         }
         return allUnits.filter {
-            measureFormatter.string(from: $0).localizedCaseInsensitiveContains(searchText) || $0.symbol.localizedCaseInsensitiveContains(searchText)
+            measureFormatter.string(from: $0).localizedStandardContains(searchText) || $0.symbol.localizedStandardContains(searchText)
         }
     }
     var body: some View {

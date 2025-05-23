@@ -5,14 +5,17 @@
 //  Created by Michael Fiedler on 09.02.25.
 //
 
+import StoreKit
 import SwiftData
 import SwiftUI
 
 @main
 struct EinheitenUmrechnerApp: App {
     @AppStorage("isFirstTimeLaunch") private var isFirstTimeLaunch = true
+    @AppStorage("numberOfLaunches") private var numberOfLaunches = 0
 //    @StateObject var networkMonitor = NetworkMonitor()
     @StateObject var colors = colorManager()
+    @Environment(\.requestReview) var requestReview
     
     private var modelContainer: ModelContainer {
         if let container = CategoriesContainer.createCategories(shouldCreateDefault: &isFirstTimeLaunch) {
@@ -36,6 +39,7 @@ struct EinheitenUmrechnerApp: App {
     }
     
     init() {
-        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+//        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+        numberOfLaunches += 1
     }
 }

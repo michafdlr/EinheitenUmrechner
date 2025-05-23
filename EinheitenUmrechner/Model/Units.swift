@@ -7,6 +7,10 @@
 
 import Foundation
 
+extension UnitArea {
+    static let squareDecimeters = UnitArea(symbol: "dm²", converter: UnitConverterLinear(coefficient: 0.01))
+}
+
 let allLengthUnits: [UnitLength] = [
     .megameters, .kilometers, .hectometers, .decameters, .meters,
     .decimeters, .centimeters, .millimeters, .micrometers, .nanometers,
@@ -17,7 +21,7 @@ let allLengthUnits: [UnitLength] = [
 
 let allAreaUnits: [UnitArea] = [
     .squareMegameters, .squareKilometers, .squareMeters, .squareCentimeters,
-    .squareMillimeters,
+    .squareMillimeters, .squareDecimeters,
     .squareMicrometers, .squareNanometers, .squareInches, .squareFeet,
     .squareYards, .squareMiles,
     .acres, .hectares,

@@ -68,7 +68,7 @@ class UnitConverterShoeSize: UnitConverter {
 }
 
 /// Shoe size unit class with predefined units
-final class UnitShoeSize: Dimension {
+final class UnitShoeSize: Dimension, @unchecked Sendable {
     static let eu = UnitShoeSize(symbol: "EU", converter: UnitConverterShoeSize(currentUnit: "EU"))
     static let usMen = UnitShoeSize(symbol: "USM", converter: UnitConverterShoeSize(currentUnit: "USM"))
     static let usWomen = UnitShoeSize(symbol: "USW", converter: UnitConverterShoeSize(currentUnit: "USW"))

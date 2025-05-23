@@ -4,20 +4,21 @@
 //
 //  Created by Michael Fiedler on 09.02.25.
 //
-
+import StoreKit
 import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-//    @Binding var colors: colorManager
+    @AppStorage("numberOfLaunches") private var numberOfLaunches = 0
     @EnvironmentObject var colors: colorManager
+    @Environment(\.requestReview) private var requestReview
 //    @EnvironmentObject var networkMonitor: NetworkMonitor
     @State private var searchText = ""
     @State private var categoriesSortedAscending = true
     @State private var angle = 0.0
     @State private var searchIsActive = false
     @State private var settingsShowing = false
-//    @State private var colors = colorManager()
+    @State private var tappedID: String?
 
     @Query var categoryNames: [CategoryName]
 
@@ -50,7 +51,7 @@ struct ContentView: View {
             NavigationStack {
                 ScrollView {
                     LazyVGrid(columns: layout, alignment: .center, spacing: 20) {
-                        ForEach(filteredCategories) { category in
+                        ForEach(filteredCategories, id: \.id) { category in
                             NavigationLink {
                                 category.view()
                             } label: {
@@ -74,10 +75,10 @@ struct ContentView: View {
                                     }
                                 }
                             }
-
                         }
                     }
                     .padding(.horizontal, 20)
+                    .id(filteredCategories.map(\.id).hashValue)
                 }
                 .background(colors.backgroundColor)
 //                .navigationTitle("Convert Units")
@@ -106,6 +107,11 @@ struct ContentView: View {
                     .easeInOut(duration: 0.5), value: categoriesSortedAscending)
                 .sheet(isPresented: $settingsShowing) {
                     SettingsView()
+                }
+            }
+            .onAppear {
+                if numberOfLaunches > 0 && numberOfLaunches.isMultiple(of: 20) {
+                    requestReview()
                 }
             }
             .searchable(
