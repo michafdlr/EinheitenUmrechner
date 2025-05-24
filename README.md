@@ -3,7 +3,7 @@
 **EinheitenUmrechner** ist eine einfache, schnelle und intuitive iOS-App, mit der du weltweit gängige **Einheiten** und **Währungen** umrechnen kannst – jederzeit und überall.
 
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-Compatible-blue?logo=swift)
-![iOS](https://img.shields.io/badge/iOS-15%2B-lightgrey?logo=apple)
+![iOS](https://img.shields.io/badge/iOS-17%2B-lightgrey?logo=apple)
 ![License](https://img.shields.io/badge/Lizenz-CC0_1.0_Public_Domain-brightgreen)
 
 ---
@@ -33,7 +33,7 @@
 
 ## 📷 Screenshots
 
-*(Optional: Hier kannst du Screenshots deiner App einfügen, z. B. mit Markdown-Bildlinks)*
+
 
 ---
 
