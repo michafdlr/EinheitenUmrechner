@@ -54,3 +54,42 @@ Oder das Projekt lokal kompilieren:
 git clone https://github.com/michafdlr/EinheitenUmrechner.git
 open EinheitenUmrechner.xcodeproj
 ```
+---
+
+## ❓ Häufige Fragen (FAQ)
+
+**🔌 Braucht die App eine Internetverbindung?**  
+Nein – Einheitenumrechnung funktioniert vollständig offline. Nur die Wechselkurse werden online aktualisiert.
+
+**🔐 Werden persönliche Daten gespeichert?**  
+Nein. Die App erhebt oder speichert **keinerlei** personenbezogene Daten.
+
+**🔄 Wie aktuell sind die Wechselkurse?**  
+Die Kurse stammen von einer zuverlässigen API und werden regelmäßig aktualisiert. Die Daten sind gemeinfrei (CC0 lizenziert).
+
+---
+
+## 🛟 Support & Kontakt
+
+Bei Fragen, Verbesserungsvorschlägen oder Fehlern:  
+Erstelle ein [GitHub Issue](https://github.com/michafdlr/EinheitenUmrechner/issues)
+
+---
+
+## 📄 Lizenz
+
+- Die App verwendet Daten, die unter der **[Creative Commons CC0 1.0 Universal Lizenz (Public Domain)](https://creativecommons.org/publicdomain/zero/1.0/)** stehen.
+- Der Quellcode dieses Projekts steht unter der **MIT-Lizenz**.  
+  → Siehe [LICENSE](./LICENSE)
+
+---
+
+## 💡 Mitwirken
+
+Pull Requests und Verbesserungsvorschläge sind willkommen. Bei Interesse bitte vorher ein Issue eröffnen.
+
+---
+
+## 🚀 Jetzt loslegen
+
+Lade **EinheitenUmrechner** im App Store herunter und genieße sorgenfreies Umrechnen – weltweit und offline!
