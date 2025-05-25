@@ -93,3 +93,44 @@ Pull Requests und Verbesserungsvorschläge sind willkommen. Bei Interesse bitte 
 ## 🚀 Jetzt loslegen
 
 Lade **EinheitenUmrechner** im App Store herunter und genieße sorgenfreies Umrechnen – weltweit und offline!
+
+---
+
+## ❓ Frequently Asked Questions (FAQ)
+
+**🔌 Does the app require an internet connection?**  
+No – unit conversions work completely offline. Only currency exchange rates are updated online.
+
+**🔐 Does the app store any personal data?**  
+No. The app does **not collect or store any personal information**.
+
+**🔄 How up-to-date are the exchange rates?**  
+Exchange rates are sourced from a reliable API and updated regularly. The data is in the public domain (CC0 licensed).
+
+---
+
+## 🛟 Support & Contact
+
+For questions, suggestions, or issues:  
+📧 **[Insert your support email address here]**  
+Or open a [GitHub Issue](https://github.com/michafdlr/EinheitenUmrechner/issues)
+
+---
+
+## 📄 License
+
+- This app uses data provided under the **[Creative Commons CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)**.
+- The source code of this project is licensed under the **MIT License**.  
+  → See [LICENSE](./LICENSE)
+
+---
+
+## 💡 Contributing
+
+Pull requests and suggestions are welcome! If you’d like to contribute, please open an issue first to discuss any changes.
+
+---
+
+## 🚀 Get Started
+
+Download **EinheitenUmrechner** from the App Store and enjoy seamless conversions – anytime, anywhere!
