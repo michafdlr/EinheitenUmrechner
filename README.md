@@ -80,7 +80,6 @@ Erstelle ein [GitHub Issue](https://github.com/michafdlr/EinheitenUmrechner/issu
 
 - Die App verwendet Daten, die unter der **[Creative Commons CC0 1.0 Universal Lizenz (Public Domain)](https://creativecommons.org/publicdomain/zero/1.0/)** stehen.
 - Der Quellcode dieses Projekts steht unter der **MIT-Lizenz**.  
-  → Siehe [LICENSE](./LICENSE)
 
 ---
 
@@ -119,7 +118,6 @@ Open a [GitHub Issue](https://github.com/michafdlr/EinheitenUmrechner/issues)
 
 - This app uses data provided under the **[Creative Commons CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)**.
 - The source code of this project is licensed under the **MIT License**.  
-  → See [LICENSE](./LICENSE)
 
 ---
 
