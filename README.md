@@ -111,9 +111,7 @@ Exchange rates are sourced from a reliable API and updated regularly. The data i
 
 ## 🛟 Support & Contact
 
-For questions, suggestions, or issues:  
-📧 **[Insert your support email address here]**  
-Or open a [GitHub Issue](https://github.com/michafdlr/EinheitenUmrechner/issues)
+Open a [GitHub Issue](https://github.com/michafdlr/EinheitenUmrechner/issues)
 
 ---
 
